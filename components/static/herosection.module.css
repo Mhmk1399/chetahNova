@@ -1,0 +1,369 @@
+/* ============================================================
+   HeroSection — Premium Dark Glassmorphism
+   ============================================================ */
+
+/* ---------- Section base ---------- */
+.hero {
+  background: radial-gradient(ellipse 80% 70% at 50% 40%, #0d1520 0%, #080810 60%, #04060a 100%);
+  min-height: 100svh;
+  position: relative;
+  isolation: isolate;
+}
+
+/* ---------- Noise overlay ---------- */
+.noiseBg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  pointer-events: none;
+}
+
+/* ---------- Vignette ---------- */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 40%,
+    rgba(4, 6, 10, 0.55) 75%,
+    rgba(2, 3, 6, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+/* ---------- Grid lines ---------- */
+.gridLines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image:
+    linear-gradient(rgba(24, 56, 88, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 56, 88, 0.07) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center center;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.5) 60%, black 100%);
+}
+
+/* ---------- Corner labels ---------- */
+.cornerLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Courier New', 'SF Mono', monospace;
+  font-size: clamp(9px, 1.1vw, 11px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(160, 185, 200, 0.55);
+  font-weight: 400;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.bullet {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #30C0C0;
+  box-shadow: 0 0 6px #30C0C0, 0 0 12px rgba(48, 192, 192, 0.4);
+  flex-shrink: 0;
+}
+
+/* ---------- Center composition wrapper ---------- */
+.centerComposition {
+  width: clamp(320px, 90vw, 900px);
+  height: clamp(320px, 60vh, 600px);
+}
+
+/* ---------- Side panels ---------- */
+.panelLeft {
+  width: clamp(140px, 22vw, 280px);
+  height: clamp(200px, 35vw, 400px);
+  right: calc(50% + clamp(120px, 18vw, 240px));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.panelRight {
+  width: clamp(140px, 22vw, 280px);
+  height: clamp(200px, 35vw, 400px);
+  left: calc(50% + clamp(120px, 18vw, 240px));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ---------- Center connecting line ---------- */
+.centerLine {
+  width: calc(clamp(120px, 18vw, 240px) * 2 + 400px);
+  height: 1px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.lineLeft {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(24, 56, 88, 0.5) 50%, rgba(48, 192, 192, 0.25) 100%);
+}
+
+.lineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(270deg, transparent 0%, rgba(24, 56, 88, 0.5) 50%, rgba(48, 192, 192, 0.25) 100%);
+}
+
+.lineDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(48, 192, 192, 0.6);
+  box-shadow: 0 0 8px rgba(48, 192, 192, 0.5);
+  flex-shrink: 0;
+}
+
+/* ---------- Glass panel ---------- */
+.glassPanel {
+  position: absolute;
+  width: clamp(260px, 50vw, 480px);
+  height: clamp(260px, 50vw, 480px);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 40% 35%,
+    rgba(255, 255, 255, 0.025) 0%,
+    rgba(48, 160, 208, 0.04) 40%,
+    rgba(8, 20, 35, 0.08) 100%
+  );
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid rgba(48, 192, 192, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 80px rgba(48, 192, 192, 0.04),
+    0 0 160px rgba(48, 192, 192, 0.02);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Orb container ---------- */
+.orbContainer {
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0;
+  z-index: 1;
+  position: relative;
+}
+
+@media (max-width: 480px) {
+  .orbContainer {
+    width: 300px;
+    height: 300px;
+    transform: scale(0.75);
+  }
+}
+
+/* ---------- Particle ring ---------- */
+.particleRing {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ringRotate 80s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ringRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ---------- Satellite ---------- */
+.satelliteWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 4;
+  animation: satelliteOrbit 12s linear infinite;
+  will-change: transform;
+}
+
+@keyframes satelliteOrbit {
+  from { transform: rotate(0deg) translateX(148px); }
+  to   { transform: rotate(360deg) translateX(148px); }
+}
+
+.satellite {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #80e8e8 0%, #30C0C0 60%, #1a8080 100%);
+  transform: translate(-50%, -50%);
+  position: relative;
+  box-shadow:
+    0 0 6px #30C0C0,
+    0 0 12px rgba(48, 192, 192, 0.8),
+    0 0 24px rgba(48, 192, 192, 0.3);
+}
+
+.satelliteGlow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(48, 192, 192, 0.3) 0%, transparent 70%);
+  animation: satellitePulse 3s ease-in-out infinite;
+}
+
+@keyframes satellitePulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}
+
+/* ---------- Orb bloom (outer glow) ---------- */
+.orbBloom {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(48, 192, 192, 0.18) 0%,
+    rgba(48, 160, 208, 0.10) 35%,
+    rgba(48, 192, 192, 0.03) 65%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  animation: orbBreathe 5s ease-in-out infinite;
+  will-change: transform, opacity;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes orbBreathe {
+  0%, 100% { transform: scale(1);    opacity: 0.8; }
+  50%       { transform: scale(1.18); opacity: 1;   }
+}
+
+/* ---------- Orb core ---------- */
+.orbCore {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: 2;
+  animation: orbBreathe 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.orbInner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    #a0f0f0 0%,
+    #40d0d0 20%,
+    #30C0C0 40%,
+    #1890b0 65%,
+    #0d4060 88%,
+    #061828 100%
+  );
+  box-shadow:
+    0 0 20px rgba(48, 192, 192, 0.6),
+    0 0 40px rgba(48, 192, 192, 0.35),
+    0 0 80px rgba(48, 160, 208, 0.2),
+    inset 0 2px 8px rgba(255, 255, 255, 0.25),
+    inset 0 -4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.orbHighlight {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 35%;
+  height: 28%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 40% 40%,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(200, 240, 240, 0.2) 50%,
+    transparent 100%
+  );
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.orbRing {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(48, 192, 192, 0.25);
+  box-shadow:
+    0 0 12px rgba(48, 192, 192, 0.15),
+    inset 0 0 12px rgba(48, 192, 192, 0.05);
+}
+
+/* ---------- Optional text overlay ---------- */
+.textOverlay {
+  z-index: 5;
+  pointer-events: none;
+}
+
+.heroTitle {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(200, 225, 235, 0.85);
+  margin: 0 0 8px;
+  text-shadow: 0 0 30px rgba(48, 192, 192, 0.3);
+}
+
+.heroSubtitle {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(48, 192, 192, 0.6);
+  margin: 0;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .particleRing,
+  .satelliteWrapper,
+  .orbBloom,
+  .orbCore,
+  .satelliteGlow {
+    animation: none !important;
+  }
+
+  .satelliteWrapper {
+    /* Park satellite at top of ring */
+    transform: rotate(-90deg) translateX(148px);
+  }
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 639px) {
+  .centerComposition {
+    height: clamp(300px, 80vw, 380px);
+  }
+
+  .cornerLabel {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    max-width: calc(50vw - 32px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

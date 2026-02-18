@@ -1,36 +1,37 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';import Link from 'next/link';
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 const CATEGORIES = [
-  { value: 'buildingServices', label: 'خدمات ساختمانی' },
-  { value: 'education', label: 'آموزش' },
-  { value: 'realState', label: 'مشاور املاک' },
-  { value: 'cosmetic', label: 'آرایش و زیبایی' },
-  { value: 'healthcare&beauty', label: 'پزشکی و سلامت' },
-  { value: 'dentists', label: 'دندان پزشکی' },
-  { value: 'pets', label: 'خدمات پت' },
-  { value: 'marketings', label: 'مارکتینگ' },
-  { value: 'sweets', label: 'شیرینی و خشکبار' },
-  { value: 'resturants', label: 'رستوران و کیترینگ' },
-  { value: 'other', label: 'سایر مشاغل' },
-  { value: 'insurance', label: 'بیمه' },
-  { value: 'contentcreation', label: 'عکس و فیلم' },
-  { value: 'homeStaffs', label: 'لوازم منزل' },
-  { value: 'cars', label: 'اتومبیل' },
-  { value: 'finance', label: 'وام و مورگج' },
-  { value: 'transportation', label: 'حمل و نقل' },
-  { value: 'clothes', label: 'لباس و زیورآلات' },
-  { value: 'imagination', label: 'خدمات مهاجرتی' },
-  { value: 'music', label: 'موسیقی' },
-  { value: 'exchange', label: 'صرافی' },
-  { value: 'foodsuply', label: 'مواد غذایی' },
-  { value: 'accountant', label: 'حسابداری' },
-  { value: 'lawer', label: 'وکیل و خدمات حقوقی' },
-  { value: 'athlit', label: 'ورزش' },
-  { value: 'tourism', label: 'خدمات مسافرتی' },
-  { value: 'flowe', label: 'گلفروشی' },
-  { value: 'supermarket', label: 'سوپرمارکت' },
+  { value: "buildingServices", label: "خدمات ساختمانی" },
+  { value: "education", label: "آموزش" },
+  { value: "realState", label: "مشاور املاک" },
+  { value: "cosmetic", label: "آرایش و زیبایی" },
+  { value: "healthcare&beauty", label: "پزشکی و سلامت" },
+  { value: "dentists", label: "دندان پزشکی" },
+  { value: "pets", label: "خدمات پت" },
+  { value: "marketings", label: "مارکتینگ" },
+  { value: "sweets", label: "شیرینی و خشکبار" },
+  { value: "resturants", label: "رستوران و کیترینگ" },
+  { value: "other", label: "سایر مشاغل" },
+  { value: "insurance", label: "بیمه" },
+  { value: "contentcreation", label: "عکس و فیلم" },
+  { value: "homeStaffs", label: "لوازم منزل" },
+  { value: "cars", label: "اتومبیل" },
+  { value: "finance", label: "وام و مورگج" },
+  { value: "transportation", label: "حمل و نقل" },
+  { value: "clothes", label: "لباس و زیورآلات" },
+  { value: "imagination", label: "خدمات مهاجرتی" },
+  { value: "music", label: "موسیقی" },
+  { value: "exchange", label: "صرافی" },
+  { value: "foodsuply", label: "مواد غذایی" },
+  { value: "accountant", label: "حسابداری" },
+  { value: "lawer", label: "وکیل و خدمات حقوقی" },
+  { value: "athlit", label: "ورزش" },
+  { value: "tourism", label: "خدمات مسافرتی" },
+  { value: "flowe", label: "گلفروشی" },
+  { value: "supermarket", label: "سوپرمارکت" },
 ];
 
 interface CrawlResult {
@@ -52,53 +53,55 @@ interface BusinessData {
 }
 
 export default function Home() {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<CrawlResult | null>(null);
-  const [error, setError] = useState('');
-  const [saveSuccess, setSaveSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [saveSuccess, setSaveSuccess] = useState("");
   const [selectedBusinesses, setSelectedBusinesses] = useState<number[]>([]);
   const [crawlAllPages, setCrawlAllPages] = useState(false);
-  const [crawlProgress, setCrawlProgress] = useState('');
+  const [crawlProgress, setCrawlProgress] = useState("");
   const [showSaveModal, setShowSaveModal] = useState(false);
-  const [country, setCountry] = useState('');
-  const [category, setCategory] = useState('');
+  const [country, setCountry] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleCrawl = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
     setResult(null);
-    setSaveSuccess('');
-    setCrawlProgress('');
+    setSaveSuccess("");
+    setCrawlProgress("");
 
     try {
-      const response = await fetch('/api/crawl', {
-        method: 'POST',
+      const response = await fetch("/api/crawl", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ url, crawlAllPages }),
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to crawl');
+        throw new Error(data.error || "Failed to crawl");
       }
 
       setResult(data);
       // Select all businesses by default
       if (data.businesses) {
-        setSelectedBusinesses(data.businesses.map((_: any, index: number) => index));
+        setSelectedBusinesses(
+          data.businesses.map((_: any, index: number) => index),
+        );
       }
-      
+
       if (data.totalPages > 1) {
         setCrawlProgress(`Crawled ${data.totalPages} pages successfully`);
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -106,42 +109,44 @@ export default function Home() {
 
   const handleSave = () => {
     if (!result || !result.businesses) return;
-    
+
     if (selectedBusinesses.length === 0) {
-      setError('Please select at least one business to save');
+      setError("Please select at least one business to save");
       return;
     }
-    
+
     // Show modal to get country and category
     setShowSaveModal(true);
   };
 
   const handleConfirmSave = async () => {
     if (!result || !result.businesses) return;
-    
+
     if (!country.trim()) {
-      setError('Please enter a country');
+      setError("Please enter a country");
       return;
     }
-    
+
     if (!category) {
-      setError('Please select a category');
+      setError("Please select a category");
       return;
     }
 
     setSaving(true);
-    setError('');
-    setSaveSuccess('');
+    setError("");
+    setSaveSuccess("");
     setShowSaveModal(false);
 
     try {
       // Get selected businesses to save
-      const businessesToSave = selectedBusinesses.map(index => result.businesses[index]);
+      const businessesToSave = selectedBusinesses.map(
+        (index) => result.businesses[index],
+      );
 
-      const response = await fetch('/api/save', {
-        method: 'POST',
+      const response = await fetch("/api/save", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           businesses: businessesToSave,
@@ -151,27 +156,29 @@ export default function Home() {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to save');
+        throw new Error(data.error || "Failed to save");
       }
 
-      setSaveSuccess(`Successfully saved ${data.saved} of ${data.total} businesses to database!`);
+      setSaveSuccess(
+        `Successfully saved ${data.saved} of ${data.total} businesses to database!`,
+      );
       if (data.errors && data.errors.length > 0) {
-        setError(`Some businesses failed to save: ${data.errors.map((e: any) => e.name).join(', ')}`);
+        setError(
+          `Some businesses failed to save: ${data.errors.map((e: any) => e.name).join(", ")}`,
+        );
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred while saving');
+      setError(err.message || "An error occurred while saving");
     } finally {
       setSaving(false);
     }
   };
 
   const toggleBusinessSelection = (index: number) => {
-    setSelectedBusinesses(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
+    setSelectedBusinesses((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
@@ -216,7 +223,10 @@ export default function Home() {
 
         <form onSubmit={handleCrawl} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="url" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            <label
+              htmlFor="url"
+              className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
               Website URL
             </label>
             <input
@@ -230,39 +240,45 @@ export default function Home() {
             />
           </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex h-12 items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 text-white font-medium transition-colors hover:bg-blue-700 disabled:bg-zinc-400 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Crawling...' : 'Start Crawl'}
-            </button>
-          </form>
-  
-          {error && (
-            <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200">
-              {error}
-            </div>
-          )}
-  
-          {saveSuccess && (
-            <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-800 dark:text-green-200">
-              {saveSuccess}
-            </div>
-          )}
-  
-          {result && (
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-black dark:text-zinc-50">
-                Extracted Data ({result.count} businesses found{result.totalPages && result.totalPages > 1 ? ` across ${result.totalPages} pages` : ''})
-                </h2>
-                <div className="flex gap-2">
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex h-12 items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 text-white font-medium transition-colors hover:bg-blue-700 disabled:bg-zinc-400 disabled:cursor-not-allowed"
+          >
+            {loading ? "Crawling..." : "Start Crawl"}
+          </button>
+        </form>
+
+        {error && (
+          <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200">
+            {error}
+          </div>
+        )}
+
+        {saveSuccess && (
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-800 dark:text-green-200">
+            {saveSuccess}
+          </div>
+        )}
+
+        {result && (
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-black dark:text-zinc-50">
+                Extracted Data ({result.count} businesses found
+                {result.totalPages && result.totalPages > 1
+                  ? ` across ${result.totalPages} pages`
+                  : ""}
+                )
+              </h2>
+              <div className="flex gap-2">
                 <button
                   onClick={toggleSelectAll}
                   className="flex h-10 items-center justify-center gap-2 rounded-lg bg-zinc-600 px-4 text-white text-sm font-medium transition-colors hover:bg-zinc-700"
                 >
-                  {selectedBusinesses.length === result.businesses.length ? 'Deselect All' : 'Select All'}
+                  {selectedBusinesses.length === result.businesses.length
+                    ? "Deselect All"
+                    : "Select All"}
                 </button>
                 <Link
                   href="/crm"
@@ -275,11 +291,13 @@ export default function Home() {
                   disabled={saving || selectedBusinesses.length === 0}
                   className="flex h-10 items-center justify-center gap-2 rounded-lg bg-green-600 px-6 text-white font-medium transition-colors hover:bg-green-700 disabled:bg-zinc-400 disabled:cursor-not-allowed"
                 >
-                  {saving ? 'Saving...' : `Save Selected (${selectedBusinesses.length})`}
+                  {saving
+                    ? "Saving..."
+                    : `Save Selected (${selectedBusinesses.length})`}
                 </button>
               </div>
             </div>
-            
+
             <div className="overflow-x-auto border border-zinc-200 dark:border-zinc-700 rounded-lg">
               <table className="w-full text-left">
                 <thead className="bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700">
@@ -287,25 +305,43 @@ export default function Home() {
                     <th className="px-4 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                       <input
                         type="checkbox"
-                        checked={selectedBusinesses.length === result.businesses.length && result.businesses.length > 0}
+                        checked={
+                          selectedBusinesses.length ===
+                            result.businesses.length &&
+                          result.businesses.length > 0
+                        }
                         onChange={toggleSelectAll}
                         className="rounded"
                       />
                     </th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">#</th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Name</th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Phone</th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Instagram</th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Address</th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email</th>
-                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Description</th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      #
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      Phone
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      Instagram
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      Address
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      Email
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                      Description
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-200 dark:divide-zinc-700">
                   {result.businesses.map((business, index) => (
-                    <tr 
-                      key={index} 
-                      className={`hover:bg-zinc-50 dark:hover:bg-zinc-800/50 ${selectedBusinesses.includes(index) ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
+                    <tr
+                      key={index}
+                      className={`hover:bg-zinc-50 dark:hover:bg-zinc-800/50 ${selectedBusinesses.includes(index) ? "bg-blue-50 dark:bg-blue-900/20" : ""}`}
                     >
                       <td className="px-4 py-4">
                         <input
@@ -315,37 +351,67 @@ export default function Home() {
                           className="rounded"
                         />
                       </td>
-                      <td className="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">{index + 1}</td>
-                      <td className="px-6 py-4 text-sm text-black dark:text-zinc-100 font-medium">{business.name || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
+                        {index + 1}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-black dark:text-zinc-100 font-medium">
+                        {business.name || "N/A"}
+                      </td>
                       <td className="px-6 py-4 text-sm text-black dark:text-zinc-100">
                         {business.phoneNumber ? (
-                          <a href={`tel:${business.phoneNumber}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                          <a
+                            href={`tel:${business.phoneNumber}`}
+                            className="text-blue-600 dark:text-blue-400 hover:underline"
+                          >
                             {business.phoneNumber}
                           </a>
-                        ) : 'N/A'}
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
                       <td className="px-6 py-4 text-sm text-black dark:text-zinc-100">
                         {business.instagram ? (
-                          business.instagram.startsWith('@') ? (
-                            <a href={`https://instagram.com/${business.instagram.substring(1)}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                          business.instagram.startsWith("@") ? (
+                            <a
+                              href={`https://instagram.com/${business.instagram.substring(1)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 dark:text-blue-400 hover:underline"
+                            >
                               {business.instagram}
                             </a>
                           ) : (
-                            <a href={business.instagram} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                            <a
+                              href={business.instagram}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 dark:text-blue-400 hover:underline"
+                            >
                               {business.instagram}
                             </a>
                           )
-                        ) : 'N/A'}
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-black dark:text-zinc-100 max-w-xs truncate">{business.address || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-black dark:text-zinc-100 max-w-xs truncate">
+                        {business.address || "N/A"}
+                      </td>
                       <td className="px-6 py-4 text-sm text-black dark:text-zinc-100">
                         {business.email ? (
-                          <a href={`mailto:${business.email}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                          <a
+                            href={`mailto:${business.email}`}
+                            className="text-blue-600 dark:text-blue-400 hover:underline"
+                          >
                             {business.email}
                           </a>
-                        ) : 'N/A'}
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-black dark:text-zinc-100 max-w-xs truncate">{business.description || 'N/A'}</td>
+                      <td className="px-6 py-4 text-sm text-black dark:text-zinc-100 max-w-xs truncate">
+                        {business.description || "N/A"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -362,11 +428,16 @@ export default function Home() {
       {showSaveModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 max-w-md w-full">
-            <h2 className="text-xl font-semibold text-black dark:text-zinc-50 mb-4">Save Details</h2>
-            
+            <h2 className="text-xl font-semibold text-black dark:text-zinc-50 mb-4">
+              Save Details
+            </h2>
+
             <div className="space-y-4">
               <div>
-                <label htmlFor="country" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
+                >
                   Country
                 </label>
                 <input
@@ -380,7 +451,10 @@ export default function Home() {
               </div>
 
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
+                >
                   Category
                 </label>
                 <select
@@ -403,7 +477,7 @@ export default function Home() {
               <button
                 onClick={() => {
                   setShowSaveModal(false);
-                  setError('');
+                  setError("");
                 }}
                 className="flex-1 px-4 py-2 border border-zinc-300 dark:border-zinc-700 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
               >
@@ -414,11 +488,12 @@ export default function Home() {
                 disabled={saving}
                 className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-zinc-400 disabled:cursor-not-allowed transition-colors"
               >
-                {saving ? 'Saving...' : 'Confirm & Save'}
+                {saving ? "Saving..." : "Confirm & Save"}
               </button>
             </div>
           </div>
         </div>
-      )}    </div>
+      )}{" "}
+    </div>
   );
 }

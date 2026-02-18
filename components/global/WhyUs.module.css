@@ -1,0 +1,298 @@
+/* components/why-us/WhyUs.module.css */
+
+/* ════════════════════════════════════════
+   SECTION SHELL
+════════════════════════════════════════ */
+.section {
+  background: #080810;
+  isolation: isolate;
+}
+
+/* ── background stack ── */
+.bgBase {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      ellipse 70% 50% at 50% 0%,
+      #0d1e30 0%,
+      #080c14 50%,
+      #050810 100%
+    );
+  z-index: 0;
+}
+
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+}
+
+.bgVignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 110% 100% at 50% 50%,
+    transparent 35%,
+    rgba(4, 6, 12, 0.5) 75%,
+    rgba(2, 4, 8, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-image:
+    linear-gradient(rgba(24, 56, 88, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 56, 88, 0.055) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* ── top / bottom border lines ── */
+.topBorderLine,
+.bottomBorderLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #112840 10%,
+    #1A4060 35%,
+    rgba(48, 192, 192, 0.25) 50%,
+    #1A4060 65%,
+    #112840 90%,
+    transparent 100%
+  );
+  z-index: 20;
+  pointer-events: none;
+}
+.topBorderLine {
+  top: 0;
+}
+.bottomBorderLine {
+  bottom: 0;
+}
+
+/* ════════════════════════════════════════
+   HEADER DIVIDER
+════════════════════════════════════════ */
+.headerDivider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(48, 192, 192, 0.2) 0%,
+    #183858 30%,
+    transparent 70%
+  );
+  margin-top: 8px;
+}
+
+/* ════════════════════════════════════════
+   METRIC CARD
+════════════════════════════════════════ */
+.metricCard {
+  position: relative;
+  border: 1px solid #112030;
+  border-radius: 3px;
+  background: rgba(10, 18, 32, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.metricCard:hover {
+  border-color: rgba(48, 192, 192, 0.22);
+  background: rgba(12, 24, 40, 0.85);
+}
+
+.metricGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 110%,
+    rgba(48, 192, 192, 0.07) 0%,
+    transparent 70%
+  );
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.metricScan {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #30C0C0, transparent);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metricReveal {
+  will-change: opacity, transform;
+}
+
+/* ════════════════════════════════════════
+   FEATURE CARD
+════════════════════════════════════════ */
+.featureCard {
+  position: relative;
+  background: rgba(8, 14, 26, 0.6);
+  border: 1px solid #0E1E30;
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  outline-offset: 2px;
+}
+.featureCard:focus-visible {
+  outline: 1px solid #30C0C0;
+}
+.featureCard:hover {
+  border-color: #183858;
+  background: rgba(10, 18, 32, 0.75);
+}
+.featureCardActive {
+  border-color: rgba(48, 192, 192, 0.2) !important;
+  background: rgba(12, 24, 42, 0.85) !important;
+}
+
+/* animated top border */
+.featureTopLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #183858 30%,
+    rgba(48, 192, 192, 0.15) 50%,
+    #183858 70%,
+    transparent 100%
+  );
+}
+.featureCardActive .featureTopLine {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(48, 192, 192, 0.4) 30%,
+    rgba(96, 223, 223, 0.6) 50%,
+    rgba(48, 192, 192, 0.4) 70%,
+    transparent 100%
+  );
+}
+
+/* expandable body */
+.featureBody {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* active left stripe */
+.featureActiveStripe {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, #30C0C0, transparent);
+  border-radius: 2px;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* chevron */
+.featureChevron {
+  font-size: 18px;
+  line-height: 1;
+  color: #1E4058;
+  flex-shrink: 0;
+  margin-top: -1px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s;
+}
+.featureCardActive .featureChevron {
+  color: #30C0C0;
+}
+
+/* ════════════════════════════════════════
+   CENTRAL ORB
+════════════════════════════════════════ */
+.orbWrap {
+  width: clamp(140px, 18vw, 210px);
+  height: clamp(140px, 18vw, 210px);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 28px rgba(30, 140, 160, 0.18));
+}
+
+.orbPulse {
+  transform-origin: 100px 100px;
+  animation: orbBreathe 4s ease-in-out infinite;
+}
+@keyframes orbBreathe {
+  0%, 100% { opacity: 0.88; }
+  50%       { opacity: 1; }
+}
+
+.orbSatelliteOrbit {
+  transform-origin: 100px 100px;
+  animation: satOrbit 10s linear infinite;
+}
+@keyframes satOrbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ════════════════════════════════════════
+   BOTTOM STRIP
+════════════════════════════════════════ */
+.bottomStrip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #0E1E2E;
+}
+
+.bottomStripLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(24, 56, 88, 0.4),
+    rgba(48, 192, 192, 0.12),
+    rgba(24, 56, 88, 0.4)
+  );
+}
+
+/* ════════════════════════════════════════
+   REDUCED MOTION
+════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .orbPulse,
+  .orbSatelliteOrbit {
+    animation: none !important;
+  }
+  .featureBody,
+  .metricScan,
+  .featureChevron {
+    transition: none !important;
+  }
+  .metricReveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

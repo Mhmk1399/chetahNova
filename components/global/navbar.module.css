@@ -1,0 +1,539 @@
+/* components/navbar/navbar.module.css */
+
+/* ════════════════════════════════════════
+   TOP SCAN LINE
+════════════════════════════════════════ */
+.topScan {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 9999;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #183858 15%,
+    #30c0c0 40%,
+    #60dfdf 50%,
+    #30c0c0 60%,
+    #183858 85%,
+    transparent 100%
+  );
+  animation: scanPulse 4s ease-in-out infinite;
+}
+
+@keyframes scanPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ════════════════════════════════════════
+   NAVBAR SHELL
+════════════════════════════════════════ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+
+  /* base glass */
+  background: rgba(8, 10, 18, 0.55);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+  /* very subtle inner top highlight (glass rim) */
+  box-shadow:
+    inset 0 1px 0 rgba(48, 192, 192, 0.08),
+    0 1px 0 rgba(24, 56, 88, 0.4),
+    0 8px 32px rgba(4, 8, 16, 0.4);
+
+  transition:
+    background 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.navbarScrolled {
+  background: rgba(6, 8, 16, 0.82);
+  box-shadow:
+    inset 0 1px 0 rgba(48, 192, 192, 0.12),
+    0 1px 0 rgba(24, 56, 88, 0.6),
+    0 12px 40px rgba(2, 5, 12, 0.7);
+}
+
+/* ── bottom border line ── */
+.bottomLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #112840 8%,
+    #183858 25%,
+    #1a4060 50%,
+    #183858 75%,
+    #112840 92%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ── corner accent brackets ── */
+.corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+.cornerTL {
+  top: 6px;
+  left: 6px;
+  border-top: 1px solid #30c0c0;
+  border-left: 1px solid #30c0c0;
+  opacity: 0.5;
+}
+.cornerTR {
+  top: 6px;
+  right: 6px;
+  border-top: 1px solid #30c0c0;
+  border-right: 1px solid #30c0c0;
+  opacity: 0.5;
+}
+
+/* ════════════════════════════════════════
+   LOGO
+════════════════════════════════════════ */
+.logo {
+  text-decoration: none;
+  outline-offset: 4px;
+}
+.logo:focus-visible {
+  outline: 1px solid #30c0c0;
+  border-radius: 4px;
+}
+
+/* orbit wrapper */
+.logoOrbitWrap {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* tiny satellite that orbits the logo icon */
+.logoSatellite {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: #60dfdf;
+  box-shadow:
+    0 0 6px #30c0c0,
+    0 0 12px #30c0c080;
+  transform-origin: 0 0;
+  animation: logoSatOrbit 6s linear infinite;
+}
+
+@keyframes logoSatOrbit {
+  from {
+    transform: rotate(0deg) translateX(14px);
+  }
+  to {
+    transform: rotate(360deg) translateX(14px);
+  }
+}
+
+.logoText {
+  font-family: ui-monospace, "SF Mono", "Fira Code", monospace;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #c8dde8;
+  text-shadow: 0 0 20px rgba(48, 192, 192, 0.3);
+}
+
+.logoDivider {
+  display: block;
+  width: 1px;
+  height: 12px;
+  background: #183858;
+  flex-shrink: 0;
+}
+
+.logoSub {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: #30c0c0;
+  opacity: 0.7;
+}
+
+/* ════════════════════════════════════════
+   DESKTOP NAV LINKS
+════════════════════════════════════════ */
+.navLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6a8fa0;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: color 0.2s ease;
+  outline-offset: 3px;
+}
+.navLink:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+.navLink:hover,
+.navLinkActive {
+  color: #a8d8e0;
+}
+
+/* index badge */
+.navIndex {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: #30c0c0;
+  opacity: 0.5;
+  margin-right: 1px;
+  transition: opacity 0.2s;
+}
+.navLink:hover .navIndex,
+.navLinkActive .navIndex {
+  opacity: 1;
+}
+
+/* animated underline */
+.navUnderline {
+  position: absolute;
+  bottom: 2px;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: linear-gradient(to right, #30c0c0, #30a0d0);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.navLink:hover .navUnderline,
+.navLinkActive .navUnderline {
+  transform: scaleX(1);
+}
+
+/* ════════════════════════════════════════
+   RIGHT SIDE ELEMENTS
+════════════════════════════════════════ */
+/* live clock */
+.clockText {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #3a6878;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ping animation */
+.pingRing {
+  background: rgba(48, 192, 192, 0.35);
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* vertical divider */
+.vDivider {
+  width: 1px;
+  height: 18px;
+  background: linear-gradient(to bottom, transparent, #183858, transparent);
+}
+
+/* ── CTA button ── */
+.ctaBtn {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 20px;
+  text-decoration: none;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid #183858;
+  background: rgba(24, 56, 88, 0.18);
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+  cursor: pointer;
+}
+.ctaBtn:hover {
+  border-color: #30c0c0;
+  background: rgba(48, 192, 192, 0.08);
+}
+.ctaBtn:focus-visible {
+  outline: 1px solid #30c0c0;
+  outline-offset: 2px;
+}
+
+.ctaBtnInner {
+  position: relative;
+  z-index: 1;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #7abfcf;
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+.ctaBtn:hover .ctaBtnInner {
+  color: #b0e8f0;
+}
+
+/* corner bracket accents on button */
+.ctaCornerTL,
+.ctaCornerBR {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  pointer-events: none;
+  transition: border-color 0.25s;
+}
+.ctaCornerTL {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid #30c0c0;
+  border-left: 1px solid #30c0c0;
+  opacity: 0.7;
+}
+.ctaCornerBR {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid #30c0c0;
+  border-right: 1px solid #30c0c0;
+  opacity: 0.7;
+}
+
+.ctaBtnFull {
+  text-align: center;
+}
+
+/* ════════════════════════════════════════
+   HAMBURGER
+════════════════════════════════════════ */
+.burger {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  outline-offset: 3px;
+}
+.burger:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+
+.burgerBar {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: #4a7a90;
+  border-radius: 1px;
+  transform-origin: center;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    background 0.3s ease;
+}
+.burger:hover .burgerBar {
+  background: #30c0c0;
+}
+
+/* open state */
+.burgerBar1Open {
+  transform: translateY(5.5px) rotate(45deg);
+  background: #30c0c0 !important;
+}
+.burgerBarMidOpen {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.burgerBar3Open {
+  transform: translateY(-5.5px) rotate(-45deg);
+  background: #30c0c0 !important;
+}
+
+/* ════════════════════════════════════════
+   MOBILE MENU
+════════════════════════════════════════ */
+.mobileMenu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  z-index: 9980;
+
+  background: rgba(7, 10, 18, 0.96);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+
+  border-bottom: 1px solid #112840;
+
+  /* clamp max height so it doesn't cover full screen */
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease;
+}
+.mobileMenuOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* subtle grid bg */
+.mobileGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(24, 56, 88, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 56, 88, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* mobile nav links */
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 8px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(24, 56, 88, 0.3);
+  transition:
+    background 0.2s,
+    padding-left 0.2s;
+  border-radius: 2px;
+}
+.mobileNavLink:hover {
+  background: rgba(48, 192, 192, 0.04);
+  padding-left: 14px;
+}
+.mobileNavLink:focus-visible {
+  outline: 1px solid #30c0c0;
+  outline-offset: -1px;
+}
+
+.mobileNavIndex {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #30c0c0;
+  opacity: 0.6;
+  min-width: 20px;
+}
+
+.mobileNavLink span:nth-child(2) {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7aaabb;
+  flex: 1;
+  transition: color 0.2s;
+}
+.mobileNavLink:hover span:nth-child(2) {
+  color: #a8d8e0;
+}
+
+.mobileNavArrow {
+  font-size: 14px;
+  color: #30c0c0;
+  opacity: 0.3;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+.mobileNavLink:hover .mobileNavArrow {
+  opacity: 0.8;
+  transform: translateX(3px);
+}
+
+/* mobile bottom status bar */
+.mobileStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(24, 56, 88, 0.4);
+  margin: 0 8px;
+}
+
+/* mobile backdrop */
+.mobileBackdrop {
+  position: fixed;
+  inset: 0;
+  top: 60px;
+  z-index: 9970;
+  background: rgba(2, 4, 10, 0.6);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ════════════════════════════════════════
+   REDUCED MOTION
+════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .topScan,
+  .logoSatellite,
+  .pingRing {
+    animation: none !important;
+  }
+  .navUnderline,
+  .mobileNavLink,
+  .ctaBtn,
+  .burgerBar,
+  .mobileMenu {
+    transition: none !important;
+  }
+}
