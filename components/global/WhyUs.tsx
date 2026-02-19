@@ -86,7 +86,7 @@ const FEATURES: Feature[] = [
    SMALL SHARED ATOMS
 ════════════════════════════════════════ */
 const TealDot = ({ size = 6, pulse = false }: { size?: number; pulse?: boolean }) => (
-  <span className="relative inline-flex flex-shrink-0" style={{ width: size, height: size }}>
+  <span className="relative inline-flex shrink-0" style={{ width: size, height: size }}>
     {pulse && (
       <span
         className="absolute inset-0 rounded-full"
@@ -222,7 +222,7 @@ const FeatureCard = ({ feature, active, onClick }: {
     <div className="flex items-start gap-4 p-5">
       {/* index */}
       <span
-        className="font-mono text-[10px] tracking-[0.2em] flex-shrink-0 mt-0.5"
+        className="font-mono text-[10px] tracking-[0.2em] shrink-0 mt-0.5"
         style={{ color: active ? "#30C0C0" : "#1E4058", transition: "color .3s" }}
         aria-hidden="true"
       >
@@ -421,7 +421,7 @@ export default function WhyUs() {
       <div className={styles.topBorderLine} aria-hidden="true" />
 
       <div
-        className="relative z-10 w-full max-w-[1280px] mx-auto
+        className="relative z-10 w-full max-w-7xl mx-auto
                    px-5 sm:px-10 lg:px-16
                    py-20 sm:py-28 lg:py-36"
       >
@@ -453,7 +453,7 @@ export default function WhyUs() {
             </h2>
 
             <p
-              className="font-mono text-[12px] leading-relaxed max-w-xs lg:max-w-[260px]"
+              className="font-mono text-[12px] leading-relaxed max-w-xs lg:max-w-65"
               style={{ color: "#2E5868", letterSpacing: "0.04em" }}
             >
               Infrastructure decisions compound. We obsess over the details so your team ships features, not fixes.

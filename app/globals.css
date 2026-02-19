@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Swiper styles */
+@import "swiper/css";
+@import "swiper/css/effect-fade";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+@import "swiper/css/parallax";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

@@ -3,6 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/global/NavBar";
 import Footer from "@/components/global/Footer";
+import { ToastContainer } from "@/components/ui/toast";
+import SmoothScroll from "@/components/ui/Scroll/SmoothScroll";
+import ScrollProgress from "@/components/ui/Scroll/ScrollProgress";
+import ScrollToTop from "@/components/ui/Scroll/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +33,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NavBar />
-        {children}
-        <Footer />
+        <SmoothScroll
+          duration={1.1}
+          easing="expo"
+          wheelMultiplier={1}
+          touchMultiplier={1.5}
+          disableOnMobile={false}
+        >
+          {/* scroll progress bar at very top */}
+          <ScrollProgress />
+          <NavBar />
+          <ToastContainer position="top-right" />
+          {children}
+          <Footer />
+          {/* back to top button */}
+          <ScrollToTop />
+        </SmoothScroll>
       </body>
     </html>
   );

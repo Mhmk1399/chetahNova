@@ -1,0 +1,396 @@
+/* components/services/Services.module.css */
+
+/* ════════════════════════════════════════
+   SECTION SHELL
+════════════════════════════════════════ */
+.section {
+  background: #070910;
+  isolation: isolate;
+}
+
+/* ── backgrounds ── */
+.bgBase {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 55% at 50% 50%,
+    #0b1828 0%,
+    #080c14 50%,
+    #050810 100%
+  );
+  z-index: 0;
+}
+
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
+}
+
+.bgVignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 110% 100% at 50% 50%,
+    transparent 30%,
+    rgba(4, 6, 12, 0.55) 72%,
+    rgba(2, 4, 8, 0.88) 100%
+  );
+  pointer-events: none;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-image:
+    linear-gradient(rgba(24, 56, 88, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 56, 88, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* ── section borders ── */
+.borderTop,
+.borderBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 20;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #112840 10%,
+    #1A4060 30%,
+    rgba(48, 192, 192, 0.22) 50%,
+    #1A4060 70%,
+    #112840 90%,
+    transparent 100%
+  );
+}
+.borderTop  { top: 0; }
+.borderBottom { bottom: 0; }
+
+/* ════════════════════════════════════════
+   HEADER
+════════════════════════════════════════ */
+.headerDivider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(48, 192, 192, 0.18) 0%,
+    #183858 35%,
+    transparent 70%
+  );
+  margin-top: 8px;
+}
+
+.activePill {
+  border: 1px solid rgba(48, 192, 192, 0.18);
+  border-radius: 2px;
+  background: rgba(48, 192, 192, 0.04);
+  backdrop-filter: blur(8px);
+}
+
+/* ════════════════════════════════════════
+   SERVICE CARD
+════════════════════════════════════════ */
+.serviceCard {
+  position: relative;
+  border: 1px solid #0C1A28;
+  border-radius: 3px;
+  background: rgba(8, 14, 26, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  outline-offset: 3px;
+
+  /* reveal start */
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
+}
+.serviceCard:focus-visible {
+  outline: 1px solid #30C0C0;
+}
+.serviceCard:hover {
+  border-color: #183858;
+  background: rgba(10, 18, 34, 0.8);
+}
+.serviceCardActive {
+  border-color: rgba(48, 192, 192, 0.22) !important;
+  background: rgba(10, 22, 42, 0.88) !important;
+}
+.serviceCardRevealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* top scan line */
+.cardTopLine {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #183858 30%,
+    rgba(48, 192, 192, 0.12) 50%,
+    #183858 70%,
+    transparent
+  );
+  transition: background 0.4s;
+}
+.serviceCardActive .cardTopLine {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(48, 192, 192, 0.5) 25%,
+    rgba(96, 223, 223, 0.7) 50%,
+    rgba(48, 192, 192, 0.5) 75%,
+    transparent
+  );
+}
+
+/* bottom line */
+.cardBottomLine {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #0E1E2E 40%,
+    #0E1E2E 60%,
+    transparent
+  );
+}
+
+/* left active stripe */
+.cardLeftStripe {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, #30C0C0, transparent);
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* ambient glow */
+.cardGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 85% 70% at 50% 100%,
+    rgba(48, 192, 192, 0.055) 0%,
+    transparent 70%
+  );
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* expandable section */
+.cardExpand {
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* CTA link */
+.cardCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid #112030;
+  border-radius: 2px;
+  background: rgba(48, 192, 192, 0.04);
+  text-decoration: none;
+  transition: border-color 0.25s, background 0.25s;
+  margin-top: 4px;
+}
+.cardCta:hover {
+  border-color: rgba(48, 192, 192, 0.3);
+  background: rgba(48, 192, 192, 0.09);
+}
+.cardCta:focus-visible {
+  outline: 1px solid #30C0C0;
+  outline-offset: 2px;
+}
+
+/* ════════════════════════════════════════
+   HEX ICON
+════════════════════════════════════════ */
+.hexWrap {
+  width: 48px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   METRIC PILL
+════════════════════════════════════════ */
+.metricPill {
+  border: 1px solid #0E1E2E;
+  border-radius: 2px;
+  background: rgba(6, 14, 24, 0.8);
+  text-align: center;
+}
+
+/* ════════════════════════════════════════
+   CAPACITY BAR
+════════════════════════════════════════ */
+.capacityFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.capacityTip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 5px;
+  border-radius: 1px;
+  transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ════════════════════════════════════════
+   CENTER ORBIT STRIP
+════════════════════════════════════════ */
+.orbitDiagram {
+  width: clamp(80px, 10vw, 120px);
+  height: clamp(80px, 10vw, 120px);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 20px rgba(30, 140, 160, 0.2));
+}
+
+.diagramOrb {
+  transform-origin: 80px 80px;
+  animation: orbBreathe 4s ease-in-out infinite;
+}
+@keyframes orbBreathe {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; }
+}
+
+.diagramSat {
+  animation: diagramSatOrbit 9s linear infinite;
+}
+@keyframes diagramSatOrbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.diagramSat2 {
+  animation: diagramSat2Orbit 14s linear infinite reverse;
+}
+@keyframes diagramSat2Orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.centerLineLeft {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #112030 20%,
+    rgba(48, 192, 192, 0.15) 80%,
+    rgba(48, 192, 192, 0.25) 100%
+  );
+}
+
+.centerLineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to left,
+    transparent 0%,
+    #112030 20%,
+    rgba(48, 192, 192, 0.15) 80%,
+    rgba(48, 192, 192, 0.25) 100%
+  );
+}
+
+/* ════════════════════════════════════════
+   BOTTOM STRIP
+════════════════════════════════════════ */
+.bottomStrip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #0D1C2C;
+}
+
+.bottomLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(24, 56, 88, 0.4),
+    rgba(48, 192, 192, 0.1),
+    rgba(24, 56, 88, 0.4)
+  );
+}
+
+/* ════════════════════════════════════════
+   REDUCED MOTION
+════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .diagramOrb,
+  .diagramSat,
+  .diagramSat2 {
+    animation: none !important;
+  }
+  .serviceCard {
+    transition: border-color 0s, background 0s !important;
+  }
+  .cardExpand {
+    transition: none !important;
+  }
+  .capacityFill,
+  .capacityTip {
+    transition: none !important;
+  }
+  .serviceCardRevealed {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ════════════════════════════════════════
+   MOBILE
+════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .orbitDiagram {
+    width: 72px;
+    height: 72px;
+  }
+  .hexWrap {
+    width: 40px;
+    height: 46px;
+  }
+}

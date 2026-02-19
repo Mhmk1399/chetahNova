@@ -1,0 +1,629 @@
+/* components/lead/Lead.module.css */
+
+/* ════════════════════════════════════════
+   SECTION
+════════════════════════════════════════ */
+.section {
+  background: #070910;
+  isolation: isolate;
+}
+.bgBase {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 30%,
+    #0a1828 0%,
+    #080c14 50%,
+    #050810 100%
+  );
+  z-index: 0;
+}
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
+}
+.bgVignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 120% 100% at 50% 50%,
+    transparent 30%,
+    rgba(4, 6, 12, 0.55) 72%,
+    rgba(2, 4, 8, 0.88) 100%
+  );
+  pointer-events: none;
+}
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-image:
+    linear-gradient(rgba(24, 56, 88, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 56, 88, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.borderTop,
+.borderBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 20;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #112840 10%,
+    #1a4060 30%,
+    rgba(48, 192, 192, 0.22) 50%,
+    #1a4060 70%,
+    #112840 90%,
+    transparent 100%
+  );
+}
+.borderTop {
+  top: 0;
+}
+.borderBottom {
+  bottom: 0;
+}
+
+/* ════════════════════════════════════════
+   TRUST PANEL
+════════════════════════════════════════ */
+.trustPanel {
+  padding: 8px 0;
+}
+.tpOrbPulse {
+  transform-origin: 50px 50px;
+  animation: orbPulse 4s ease-in-out infinite;
+}
+.tpSat {
+  transform-origin: 50px 50px;
+  animation: satOrbit 8s linear infinite;
+}
+
+/* ════════════════════════════════════════
+   FORM PANEL
+════════════════════════════════════════ */
+.formPanel {
+  position: relative;
+  border: 1px solid #0e1e30;
+  border-radius: 3px;
+  background: rgba(7, 13, 24, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.panelTopLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(48, 192, 192, 0.4) 30%,
+    rgba(96, 223, 223, 0.6) 50%,
+    rgba(48, 192, 192, 0.4) 70%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+.panelBottomLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #183858 30%,
+    #183858 70%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════
+   STEP INDICATOR
+════════════════════════════════════════ */
+.stepCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  border: 1px solid #0e1e30;
+  background: rgba(6, 12, 22, 0.8);
+  flex-shrink: 0;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+}
+.stepCircleDone {
+  border-color: rgba(48, 192, 192, 0.3) !important;
+  background: rgba(48, 192, 192, 0.08) !important;
+}
+.stepCircleActive {
+  border-color: rgba(48, 192, 192, 0.35) !important;
+  background: rgba(48, 192, 192, 0.06) !important;
+}
+.stepPulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 3px;
+  border: 1px solid rgba(48, 192, 192, 0.25);
+  animation: stepPing 2s ease-in-out infinite;
+}
+@keyframes stepPing {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+.stepConnector {
+  flex: 1;
+  height: 1px;
+  background: #0c1828;
+  position: relative;
+  overflow: hidden;
+  min-width: 20px;
+}
+.stepConnectorFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(to right, #183858, #30c0c0);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════ */
+.progressTrack {
+  position: relative;
+  height: 2px;
+  width: 100%;
+  background: #0a1624;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(to right, #183858, #30c0c0);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(48, 192, 192, 0.5);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.progressTip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 8px;
+  background: #60dfdf;
+  border-radius: 1px;
+  box-shadow: 0 0 8px #30c0c0;
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ════════════════════════════════════════
+   STEP BODY TRANSITION
+════════════════════════════════════════ */
+.stepBody {
+  animation: stepSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes stepSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ════════════════════════════════════════
+   INPUTS
+════════════════════════════════════════ */
+.inputWrap {
+  border: 1px solid #0e1e30;
+  border-radius: 2px;
+  background: rgba(6, 12, 22, 0.8);
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.inputWrap:focus-within {
+  border-color: rgba(48, 192, 192, 0.28);
+  box-shadow: 0 0 0 2px rgba(48, 192, 192, 0.06);
+}
+.inputWrapError {
+  border-color: rgba(192, 80, 80, 0.35) !important;
+}
+.inputWrapError:focus-within {
+  border-color: rgba(192, 80, 80, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(192, 80, 80, 0.06) !important;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: #7aaabb;
+  caret-color: #30c0c0;
+}
+.input::placeholder {
+  color: #1a3848;
+}
+.input:disabled {
+  opacity: 0.5;
+}
+
+.select {
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 36px 10px 12px;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: #7aaabb;
+  cursor: pointer;
+}
+.select option {
+  background: #080e1c;
+  color: #7aaabb;
+}
+.select:invalid,
+.select option[value=""] {
+  color: #1a3848;
+}
+
+.textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: #7aaabb;
+  caret-color: #30c0c0;
+  resize: vertical;
+  min-height: 100px;
+}
+.textarea::placeholder {
+  color: #1a3848;
+}
+
+/* ════════════════════════════════════════
+   CHIPS
+════════════════════════════════════════ */
+.chip {
+  padding: 7px 13px;
+  border: 1px solid #0c1828;
+  border-radius: 2px;
+  background: rgba(7, 13, 24, 0.8);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  outline-offset: 3px;
+}
+.chip:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+.chip:hover:not(.chipActive) {
+  border-color: #183858;
+  background: rgba(12, 22, 38, 0.9);
+}
+.chipActive {
+  border-color: rgba(48, 192, 192, 0.25) !important;
+  background: rgba(48, 192, 192, 0.06) !important;
+}
+
+/* ════════════════════════════════════════
+   PILLS (single select)
+════════════════════════════════════════ */
+.pill {
+  padding: 7px 14px;
+  border: 1px solid #0c1828;
+  border-radius: 2px;
+  background: rgba(7, 13, 24, 0.8);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  outline-offset: 3px;
+}
+.pill:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+.pill:hover:not(.pillActive) {
+  border-color: #183858;
+  background: rgba(12, 22, 38, 0.9);
+}
+.pillActive {
+  border-color: rgba(48, 192, 192, 0.28) !important;
+  background: rgba(48, 192, 192, 0.07) !important;
+}
+
+/* ════════════════════════════════════════
+   CHECKBOX
+════════════════════════════════════════ */
+.checkLabel {
+  user-select: none;
+}
+.checkBox {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border: 1px solid #0e1e30;
+  border-radius: 2px;
+  background: rgba(6, 12, 22, 0.8);
+  margin-top: 1px;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.checkBoxActive {
+  border-color: rgba(48, 192, 192, 0.35) !important;
+  background: rgba(48, 192, 192, 0.08) !important;
+}
+.checkLabel:hover .checkBox {
+  border-color: rgba(48, 192, 192, 0.2);
+}
+
+/* ════════════════════════════════════════
+   NAV BUTTONS
+════════════════════════════════════════ */
+.btnBack {
+  padding: 9px 18px;
+  border: 1px solid #0e1e30;
+  border-radius: 2px;
+  background: transparent;
+  color: #1e4058;
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    color 0.25s,
+    background 0.25s;
+  outline-offset: 3px;
+}
+.btnBack:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+.btnBack:hover {
+  border-color: #183858;
+  color: #4a8090;
+  background: rgba(24, 56, 88, 0.1);
+}
+
+.btnNext {
+  padding: 9px 22px;
+  border: 1px solid #183858;
+  border-radius: 2px;
+  background: rgba(48, 192, 192, 0.05);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+  outline-offset: 3px;
+}
+.btnNext:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+.btnNext:hover {
+  border-color: rgba(48, 192, 192, 0.4);
+  background: rgba(48, 192, 192, 0.1);
+}
+
+.btnSubmit {
+  padding: 10px 24px;
+  border: 1px solid rgba(48, 192, 192, 0.3);
+  border-radius: 2px;
+  background: rgba(48, 192, 192, 0.07);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+  outline-offset: 3px;
+  overflow: hidden;
+}
+.btnSubmit:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+.btnSubmit:hover:not(:disabled) {
+  border-color: rgba(48, 192, 192, 0.55);
+  background: rgba(48, 192, 192, 0.14);
+}
+.btnSubmit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btnSubmitGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 120%,
+    rgba(48, 192, 192, 0.12) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════
+   SPINNER
+════════════════════════════════════════ */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(48, 192, 192, 0.2);
+  border-top-color: #30c0c0;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ════════════════════════════════════════
+   SUCCESS
+════════════════════════════════════════ */
+.successOrbWrap {
+  width: clamp(100px, 18vw, 140px);
+  height: clamp(100px, 18vw, 140px);
+  filter: drop-shadow(0 0 24px rgba(30, 140, 160, 0.25));
+}
+.successOrbPulse {
+  transform-origin: 70px 70px;
+  animation: orbPulse 3s ease-in-out infinite;
+}
+.successCheck {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: checkDraw 0.6s ease-out 0.3s forwards;
+}
+@keyframes checkDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.successSat {
+  transform-origin: 70px 70px;
+  animation: satOrbit 7s linear infinite;
+}
+
+.successSteps {
+  border: 1px solid #0c1828;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(6, 12, 22, 0.6);
+}
+.successStep {
+  border-bottom: 1px solid #0a1624;
+  opacity: 0;
+  animation: stepFadeIn 0.4s ease forwards;
+}
+.successStep:last-child {
+  border-bottom: none;
+}
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ════════════════════════════════════════
+   SHARED KEYFRAMES
+════════════════════════════════════════ */
+@keyframes orbPulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes satOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ════════════════════════════════════════
+   REDUCED MOTION
+════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .stepBody {
+    animation: none !important;
+  }
+  .tpOrbPulse,
+  .tpSat,
+  .successOrbPulse,
+  .successSat,
+  .successCheck,
+  .successStep,
+  .stepPulse,
+  .spinner {
+    animation: none !important;
+  }
+  .progressFill,
+  .progressTip,
+  .stepConnectorFill {
+    transition: none !important;
+  }
+  .successCheck {
+    stroke-dashoffset: 0;
+  }
+  .successStep {
+    opacity: 1;
+  }
+}
+
+/* ════════════════════════════════════════
+   MOBILE
+════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .formPanel {
+    border-radius: 2px;
+  }
+  .stepCircle {
+    width: 24px;
+    height: 24px;
+  }
+  .btnBack,
+  .btnNext,
+  .btnSubmit {
+    padding: 9px 14px;
+  }
+}

@@ -1,14 +1,40 @@
-import WhyUs from '@/components/global/WhyUs'
-import HeroSection from '@/components/static/HeroSection'
-import React from 'react'
+import Faq from "@/components/global/Faq";
+import Lead from "@/components/global/Lead";
+import Services from "@/components/global/Servicesection";
+import WhyUs from "@/components/global/WhyUs";
+import Work from "@/components/global/Work";
+import HeroSection from "@/components/static/HeroSection";
 
 const page = () => {
   return (
-    <div>
-        <HeroSection />
-        <WhyUs />
-    </div>
-  )
-}
+    <main>
+       <section id="hero-section">
+        {" "}
+        <HeroSection />{" "}
+      </section>
+      <section id="whyus">
+        {" "}
+        <WhyUs />{" "}
+      </section>
+      <section id="services">
+        {" "}
+        <Services />{" "}
+      </section>
+      <section id="work">
+        {" "}
+        <Work />{" "}
+      </section>
 
-export default page
+      <section id="lead">
+        {" "}
+        <Lead />{" "}
+      </section>
+      <section id="faq">
+        {" "}
+        <Faq />{" "}
+      </section>
+    </main>
+  );
+};
+
+export default page;
