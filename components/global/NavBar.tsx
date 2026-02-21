@@ -1,13 +1,17 @@
-// components/navbar/navbar.tsx
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import styles from "./navbar.module.css";
+import { useState, useEffect, useRef, useCallback } from "react";
+import styles from "./Navbar.module.css";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
+/* ════════════════════════════════════════
+   TYPES
+════════════════════════════════════════ */
 interface NavItem {
   label: string;
   href: string;
+  badge?: string;
 }
 
 interface NavbarProps {
@@ -15,104 +19,162 @@ interface NavbarProps {
   items?: NavItem[];
 }
 
+interface HoverPillStyle {
+  left: number;
+  width: number;
+  opacity: number;
+}
+
 const DEFAULT_ITEMS: NavItem[] = [
-  { label: "Overview", href: "#" },
-  { label: "Systems", href: "#" },
-  { label: "Interface", href: "#" },
-  { label: "Deploy", href: "#" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Blog", href: "#blog" },
+  { label: "Contact", href: "#contact" },
 ];
 
-/* ── tiny SVG orb for logo area ── */
-const OrbIcon = () => (
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    aria-hidden="true"
-  >
-    <defs>
-      <radialGradient id="nOrb" cx="40%" cy="35%" r="65%">
-        <stop offset="0%" stopColor="#60DFDF" />
-        <stop offset="55%" stopColor="#30C0C0" />
-        <stop offset="100%" stopColor="#0B3848" stopOpacity="0" />
-      </radialGradient>
-      <filter id="nOrbGlow">
-        <feGaussianBlur stdDeviation="2.5" result="b" />
-        <feMerge>
-          <feMergeNode in="b" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    {/* orbit ring */}
-    <circle
-      cx="14"
-      cy="14"
-      r="12"
-      stroke="#183858"
-      strokeWidth="0.6"
-      strokeDasharray="2 5"
+/* ════════════════════════════════════════
+   ANIMATED ORB LOGO
+════════════════════════════════════════ */
+const AnimatedOrb = () => (
+  <div className={styles.orbContainer}>
+    <svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
       fill="none"
-      opacity="0.8"
-    />
-    {/* orb */}
-    <circle cx="14" cy="14" r="7" fill="url(#nOrb)" filter="url(#nOrbGlow)" />
-    {/* highlight */}
-    <ellipse
-      cx="11.5"
-      cy="11.5"
-      rx="2.5"
-      ry="1.5"
-      fill="white"
-      opacity="0.12"
-      transform="rotate(-20 14 14)"
-    />
-    {/* satellite */}
-    <circle
-      cx="14"
-      cy="2"
-      r="1.5"
-      fill="#60DFDF"
-      opacity="0.9"
-      filter="url(#nOrbGlow)"
-    />
-  </svg>
-);
+      aria-hidden="true"
+      className={styles.orbSvg}
+    >
+      <defs>
+        <radialGradient id="navOrb" cx="35%" cy="30%" r="65%">
+          <stop offset="0%" stopColor="#80F0F0" />
+          <stop offset="40%" stopColor="#40D0D0" />
+          <stop offset="80%" stopColor="#20A0A0" />
+          <stop offset="100%" stopColor="#0B3848" stopOpacity="0" />
+        </radialGradient>
+        <filter id="navOrbGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#30C0C0" stopOpacity="0.6" />
+          <stop offset="50%" stopColor="#60E0E0" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#30C0C0" stopOpacity="0.6" />
+        </linearGradient>
+      </defs>
 
-/* ── animated satellite ring for logo ── */
-const LogoOrbit = () => (
-  <div className={styles.logoOrbitWrap} aria-hidden="true">
-    <OrbIcon />
-    <div className={styles.logoSatellite} />
+      {/* Outer ring */}
+      <circle
+        cx="18"
+        cy="18"
+        r="16"
+        stroke="url(#ringGrad)"
+        strokeWidth="0.5"
+        fill="none"
+        className={styles.orbRingOuter}
+      />
+
+      {/* Middle dashed ring */}
+      <circle
+        cx="18"
+        cy="18"
+        r="13"
+        stroke="#30C0C0"
+        strokeWidth="0.4"
+        strokeDasharray="2 4"
+        fill="none"
+        opacity="0.4"
+        className={styles.orbRingMiddle}
+      />
+
+      {/* Core orb */}
+      <circle
+        cx="18"
+        cy="18"
+        r="8"
+        fill="url(#navOrb)"
+        filter="url(#navOrbGlow)"
+      />
+
+      {/* Inner glow ring */}
+      <circle
+        cx="18"
+        cy="18"
+        r="8"
+        fill="none"
+        stroke="#60E0E0"
+        strokeWidth="0.5"
+        opacity="0.5"
+      />
+
+      {/* Highlight */}
+      <ellipse
+        cx="15"
+        cy="15"
+        rx="3"
+        ry="2"
+        fill="white"
+        opacity="0.15"
+        transform="rotate(-25 18 18)"
+      />
+
+      {/* Orbiting satellite */}
+      <g className={styles.satellite}>
+        <circle cx="18" cy="2" r="2" fill="#60EFEF" filter="url(#navOrbGlow)" />
+      </g>
+
+      {/* Second satellite (opposite) */}
+      <g className={styles.satelliteReverse}>
+        <circle cx="18" cy="34" r="1.5" fill="#40C0C0" opacity="0.7" />
+      </g>
+    </svg>
+
+    {/* Pulse ring effect */}
+    <div className={styles.orbPulse} />
   </div>
 );
 
-/* ── status ping dot ── */
-const PingDot = () => (
-  <span className="relative flex h-2 w-2" aria-hidden="true">
-    <span
-      className={`${styles.pingRing} absolute inline-flex h-full w-full rounded-full`}
-    />
-    <span
-      className="relative inline-flex rounded-full h-2 w-2"
-      style={{ background: "#30C0C0" }}
-    />
-  </span>
-);
+/* ════════════════════════════════════════
+   STATUS INDICATOR
+════════════════════════════════════════ */
+const StatusIndicator = ({
+  status = "online",
+}: {
+  status?: "online" | "busy" | "offline";
+}) => {
+  const colors = {
+    online: "#30C0C0",
+    busy: "#F0A030",
+    offline: "#C05050",
+  };
 
-export default function Navbar({
-  logo = "AXON",
-  items = DEFAULT_ITEMS,
-}: NavbarProps) {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  return (
+    <span className={styles.statusDot}>
+      <span
+        className={styles.statusPing}
+        style={{ backgroundColor: `${colors[status]}40` }}
+      />
+      <span
+        className={styles.statusCore}
+        style={{ backgroundColor: colors[status] }}
+      />
+    </span>
+  );
+};
+
+/* ════════════════════════════════════════
+   LIVE CLOCK
+════════════════════════════════════════ */
+const LiveClock = () => {
   const [time, setTime] = useState("00:00:00");
-  const menuRef = useRef<HTMLDivElement>(null);
-  const pathName = usePathname();
+  const [date, setDate] = useState("");
 
-  /* live clock */
   useEffect(() => {
     const tick = () => {
       const now = new Date();
@@ -121,222 +183,418 @@ export default function Navbar({
           .map((n) => String(n).padStart(2, "0"))
           .join(":"),
       );
+      setDate(
+        now.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+      );
     };
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
 
-  /* scroll detection */
+  return (
+    <div className={styles.clockWrapper}>
+      <StatusIndicator status="online" />
+      <div className={styles.clockContent}>
+        <span className={styles.clockTime}>{time}</span>
+        <span className={styles.clockDate}>{date}</span>
+      </div>
+    </div>
+  );
+};
+
+/* ════════════════════════════════════════
+   MAIN NAVBAR COMPONENT
+════════════════════════════════════════ */
+export default function Navbar({
+  logo = "YOUR BRAND",
+  items = DEFAULT_ITEMS,
+}: NavbarProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  // ⭐ Hover pill state - موقعیت و عرض دقیق
+  const [hoverPillStyle, setHoverPillStyle] = useState<HoverPillStyle>({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const navLinksContainerRef = useRef<HTMLDivElement>(null);
+
+  // ⭐ Refs برای هر لینک
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  const pathname = usePathname();
+
+  // Scroll detection
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* close menu on outside click */
+  // Close menu on outside click
   useEffect(() => {
-    if (!open) return;
+    if (!isOpen) return;
     const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target as Node) &&
+        navRef.current &&
+        !navRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
+  }, [isOpen]);
 
-  /* close on Escape */
+  // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") setIsOpen(false);
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
-  if (pathName === "/adminDashboard"){
-    return null
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Set active index based on current path
+  useEffect(() => {
+    const index = items.findIndex((item) => item.href === pathname);
+    setActiveIndex(index >= 0 ? index : null);
+  }, [pathname, items]);
+
+  const toggleMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  // ⭐ هندلر برای هاور روی لینک‌ها
+  const handleLinkHover = useCallback((index: number) => {
+    const linkEl = linkRefs.current[index];
+    const containerEl = navLinksContainerRef.current;
+
+    if (linkEl && containerEl) {
+      const containerRect = containerEl.getBoundingClientRect();
+      const linkRect = linkEl.getBoundingClientRect();
+
+      setHoverPillStyle({
+        left: linkRect.left - containerRect.left,
+        width: linkRect.width,
+        opacity: 1,
+      });
+    }
+  }, []);
+
+  // ⭐ هندلر برای خروج موس از لینک‌ها
+  const handleLinkLeave = useCallback(() => {
+    setHoverPillStyle((prev) => ({
+      ...prev,
+      opacity: 0,
+    }));
+  }, []);
+
+  // Hide on admin dashboard
+  if (pathname === "/adminDashboard") {
+    return null;
   }
-    return (
-      <>
-        {/* ── top border scan line ── */}
-        <div className={styles.topScan} aria-hidden="true" />
 
-        <header
-          className={`${styles.navbar} ${scrolled ? styles.navbarScrolled : ""}`}
-          role="banner"
-        >
-          {/* corner accent tl */}
-          <span
-            className={`${styles.corner} ${styles.cornerTL}`}
-            aria-hidden="true"
-          />
-          {/* corner accent tr */}
-          <span
-            className={`${styles.corner} ${styles.cornerTR}`}
-            aria-hidden="true"
-          />
+  return (
+    <>
+      {/* ── Animated top border ── */}
+      <div className={styles.topBorder} aria-hidden="true">
+        <div className={styles.topBorderGlow} />
+      </div>
 
-          <nav
-            className="relative z-10 w-full max-w-360 mx-auto
-                     flex items-center justify-between
-                     px-4 sm:px-8 lg:px-14 h-full"
-            aria-label="Main navigation"
+      {/* ── Main Header ── */}
+      <header
+        ref={navRef}
+        className={`${styles.navbar} ${scrolled ? styles.navbarScrolled : ""} ${isOpen ? styles.navbarMenuOpen : ""}`}
+        role="banner"
+      >
+        {/* Glass layers */}
+        <div className={styles.glassLayer} aria-hidden="true" />
+        <div className={styles.glassShine} aria-hidden="true" />
+        <div className={styles.glassNoise} aria-hidden="true" />
+
+        {/* Corner brackets */}
+        <span
+          className={`${styles.bracket} ${styles.bracketTL}`}
+          aria-hidden="true"
+        />
+        <span
+          className={`${styles.bracket} ${styles.bracketTR}`}
+          aria-hidden="true"
+        />
+        <span
+          className={`${styles.bracket} ${styles.bracketBL}`}
+          aria-hidden="true"
+        />
+        <span
+          className={`${styles.bracket} ${styles.bracketBR}`}
+          aria-hidden="true"
+        />
+
+        <nav className={styles.navInner} aria-label="Main navigation">
+          {/* ══ LEFT: Logo ══ */}
+          <Link
+            href="/"
+            className={styles.logoLink}
+            aria-label={`${logo} — home`}
           >
-            {/* ══ LEFT: Logo ══ */}
-            <a
-              href="/"
-              className={`${styles.logo} flex items-center gap-2.5 select-none`}
-              aria-label={`${logo} — home`}
-            >
-              <LogoOrbit />
-              <span className={styles.logoText}>{logo}</span>
-              <span className={styles.logoDivider} aria-hidden="true" />
-              <span className={styles.logoSub}>SYS</span>
-            </a>
+            <AnimatedOrb />
+            <div className={styles.logoText}>
+              <span className={styles.logoMain}>{logo}</span>
+              <span className={styles.logoSub}>DIGITAL AGENCY</span>
+            </div>
+          </Link>
 
-            {/* ══ CENTER: Nav links (desktop) ══ */}
-            <ul className="hidden md:flex items-center gap-1" role="list">
+          {/* ══ CENTER: Nav Links (Desktop) ══ */}
+          <div
+            ref={navLinksContainerRef}
+            className={styles.navLinksWrapper}
+            onMouseLeave={handleLinkLeave}
+          >
+            {/* ⭐ Hover Pill - با موقعیت دقیق */}
+            <div
+              className={styles.hoverPill}
+              style={{
+                left: `${hoverPillStyle.left}px`,
+                width: `${hoverPillStyle.width}px`,
+                opacity: hoverPillStyle.opacity,
+              }}
+              aria-hidden="true"
+            />
+
+            <ul className={styles.navLinks} role="list">
               {items.map((item, i) => (
                 <li key={item.href + i}>
-                  <a
+                  <Link
                     href={item.href}
+                    ref={(el) => {
+                      linkRefs.current[i] = el;
+                    }}
                     className={`${styles.navLink} ${activeIndex === i ? styles.navLinkActive : ""}`}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    onMouseLeave={() => setActiveIndex(null)}
+                    onMouseEnter={() => handleLinkHover(i)}
                     aria-current={activeIndex === i ? "page" : undefined}
                   >
-                    {/* index badge */}
-                    <span className={styles.navIndex}>
+                    <span className={styles.navLinkIndex}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    {item.label}
-                    {/* underline bar */}
-                    <span className={styles.navUnderline} aria-hidden="true" />
-                  </a>
+                    <span className={styles.navLinkLabel}>{item.label}</span>
+                    {item.badge && (
+                      <span className={styles.navLinkBadge}>{item.badge}</span>
+                    )}
+                    <span
+                      className={styles.navLinkUnderline}
+                      aria-hidden="true"
+                    />
+                  </Link>
                 </li>
               ))}
             </ul>
+          </div>
 
-            {/* ══ RIGHT: Status + CTA + hamburger ══ */}
-            <div className="flex items-center gap-3 sm:gap-5">
-              {/* live clock (desktop only) */}
-              <div
-                className="hidden lg:flex items-center gap-2"
-                aria-label="Current time"
-              >
-                <PingDot />
-                <span className={styles.clockText}>{time}</span>
-              </div>
-
-              {/* thin separator */}
-              <div
-                className={`hidden lg:block ${styles.vDivider}`}
-                aria-hidden="true"
-              />
-
-              {/* CTA button */}
-              <a
-                href="#"
-                className={`hidden sm:flex ${styles.ctaBtn}`}
-                aria-label="Launch interface"
-              >
-                <span className={styles.ctaBtnInner}>Launch</span>
-                <span className={styles.ctaCornerTL} aria-hidden="true" />
-                <span className={styles.ctaCornerBR} aria-hidden="true" />
-              </a>
-
-              {/* Hamburger (mobile) */}
-              <button
-                className={`md:hidden ${styles.burger}`}
-                onClick={() => setOpen((p) => !p)}
-                aria-expanded={open}
-                aria-controls="mobile-menu"
-                aria-label={open ? "Close menu" : "Open menu"}
-              >
-                <span
-                  className={`${styles.burgerBar} ${open ? styles.burgerBar1Open : ""}`}
-                />
-                <span
-                  className={`${styles.burgerBar} ${open ? styles.burgerBarMidOpen : ""}`}
-                />
-                <span
-                  className={`${styles.burgerBar} ${open ? styles.burgerBar3Open : ""}`}
-                />
-              </button>
+          {/* ══ RIGHT: Actions ══ */}
+          <div className={styles.navActions}>
+            {/* Clock (desktop) */}
+            <div className={styles.clockContainer}>
+              <LiveClock />
             </div>
-          </nav>
 
-          {/* ── bottom border line with glow ── */}
-          <div className={styles.bottomLine} aria-hidden="true" />
-        </header>
+            {/* Divider */}
+            <div className={styles.divider} aria-hidden="true" />
 
-        {/* ══ Mobile menu overlay ══ */}
-        <div
-          id="mobile-menu"
-          ref={menuRef}
-          className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ""} md:hidden`}
-          aria-hidden={!open}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile navigation"
-        >
-          {/* bg grid */}
-          <div className={styles.mobileGrid} aria-hidden="true" />
+            {/* CTA Button */}
+            <Link href="/login" className={styles.ctaButton}>
+              <span className={styles.ctaButtonBg} aria-hidden="true" />
+              <span className={styles.ctaButtonContent}>
+                <span className={styles.ctaButtonText}>Login</span>
+                <svg
+                  className={styles.ctaButtonIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <span className={styles.ctaCornerTL} aria-hidden="true" />
+              <span className={styles.ctaCornerBR} aria-hidden="true" />
+            </Link>
 
-          <ul className="flex flex-col gap-1 p-6 pt-8" role="list">
+            {/* Hamburger (mobile) */}
+            <button
+              className={`${styles.hamburger} ${isOpen ? styles.hamburgerOpen : ""}`}
+              onClick={toggleMenu}
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+            >
+              <span className={styles.hamburgerBox}>
+                <span className={styles.hamburgerLine} />
+                <span className={styles.hamburgerLine} />
+                <span className={styles.hamburgerLine} />
+              </span>
+            </button>
+          </div>
+        </nav>
+
+        {/* Bottom border glow */}
+        <div className={styles.bottomBorder} aria-hidden="true" />
+      </header>
+
+      {/* ══ Mobile Menu Panel ══ */}
+      <div
+        id="mobile-menu"
+        ref={menuRef}
+        className={`${styles.mobileMenu} ${isOpen ? styles.mobileMenuOpen : ""}`}
+        aria-hidden={!isOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation"
+      >
+        {/* Background effects */}
+        <div className={styles.mobileMenuBg} aria-hidden="true" />
+        <div className={styles.mobileMenuGrid} aria-hidden="true" />
+        <div className={styles.mobileMenuGlow} aria-hidden="true" />
+
+        {/* Menu content */}
+        <div className={styles.mobileMenuContent}>
+          {/* Header */}
+          <div className={styles.mobileMenuHeader}>
+            <span className={styles.mobileMenuTitle}>Navigation</span>
+            <span className={styles.mobileMenuSubtitle}>
+              {items.length} SECTIONS
+            </span>
+          </div>
+
+          {/* Links */}
+          <ul className={styles.mobileNavLinks} role="list">
             {items.map((item, i) => (
-              <li key={item.href + i}>
-                <a
+              <li
+                key={item.href + i}
+                style={{ animationDelay: `${i * 0.05}s` }}
+                className={styles.mobileNavItem}
+              >
+                <Link
                   href={item.href}
-                  className={styles.mobileNavLink}
-                  onClick={() => setOpen(false)}
-                  tabIndex={open ? 0 : -1}
+                  className={`${styles.mobileNavLink} ${activeIndex === i ? styles.mobileNavLinkActive : ""}`}
+                  onClick={() => setIsOpen(false)}
+                  tabIndex={isOpen ? 0 : -1}
                 >
                   <span className={styles.mobileNavIndex}>
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span>{item.label}</span>
-                  <span className={styles.mobileNavArrow} aria-hidden="true">
-                    ›
+                  <span className={styles.mobileNavLabel}>{item.label}</span>
+                  {item.badge && (
+                    <span className={styles.mobileNavBadge}>{item.badge}</span>
+                  )}
+                  <span className={styles.mobileNavArrow}>
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path
+                        d="M6 4l4 4-4 4"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </span>
-                </a>
+                  <span className={styles.mobileNavGlow} aria-hidden="true" />
+                </Link>
               </li>
             ))}
           </ul>
 
-          {/* mobile bottom status */}
-          <div className={styles.mobileStatus}>
-            <PingDot />
-            <span className={styles.clockText}>{time}</span>
-            <span className={styles.logoDivider} aria-hidden="true" />
-            <span className={styles.logoSub} style={{ fontSize: "9px" }}>
-              ONLINE
-            </span>
-          </div>
+          {/* Bottom section */}
+          <div className={styles.mobileMenuFooter}>
+            {/* Status */}
+            <div className={styles.mobileStatus}>
+              <StatusIndicator status="online" />
+              <span className={styles.mobileStatusText}>System Online</span>
+              <LiveClock />
+            </div>
 
-          {/* mobile CTA */}
-          <div className="px-6 pb-6">
-            <a
-              href="#"
-              className={`flex w-full ${styles.ctaBtn} ${styles.ctaBtnFull}`}
-              tabIndex={open ? 0 : -1}
+            {/* CTA */}
+            <Link
+              href="/login"
+              className={styles.mobileCta}
+              onClick={() => setIsOpen(false)}
+              tabIndex={isOpen ? 0 : -1}
             >
-              <span className={styles.ctaBtnInner}>Launch Interface</span>
-              <span className={styles.ctaCornerTL} aria-hidden="true" />
-              <span className={styles.ctaCornerBR} aria-hidden="true" />
-            </a>
+              <span className={styles.mobileCtaBg} aria-hidden="true" />
+              <span className={styles.mobileCtaContent}>
+                <span>Login to Dashboard</span>
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </Link>
+
+            {/* Social links */}
+            <div className={styles.mobileSocials}>
+              {["LinkedIn", "Instagram", "YouTube"].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className={styles.mobileSocialLink}
+                  tabIndex={isOpen ? 0 : -1}
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* mobile backdrop */}
-        {open && (
-          <div
-            className={styles.mobileBackdrop}
-            onClick={() => setOpen(false)}
-            aria-hidden="true"
-          />
-        )}
-      </>
-    );
+      {/* ══ Backdrop ══ */}
+      <div
+        className={`${styles.backdrop} ${isOpen ? styles.backdropVisible : ""}`}
+        onClick={() => setIsOpen(false)}
+        aria-hidden="true"
+      />
+    </>
+  );
 }

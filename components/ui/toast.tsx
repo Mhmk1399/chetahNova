@@ -99,10 +99,10 @@ const ParticleRing: React.FC<{ color: string; size?: number }> = ({
     for (let i = 0; i < 12; i++) {
       const angle = i * 30 * (Math.PI / 180);
       const radius = size / 2 - 2;
-      const x = size / 2 + Math.cos(angle) * radius;
-      const y = size / 2 + Math.sin(angle) * radius;
+      const x = Number((size / 2 + Math.cos(angle) * radius).toFixed(4));
+      const y = Number((size / 2 + Math.sin(angle) * radius).toFixed(4));
       const particleSize = i % 3 === 0 ? 1.5 : 1;
-      const opacity = i % 2 === 0 ? 0.8 : 0.4;
+      const opacity = Number((i % 2 === 0 ? 0.8 : 0.4).toFixed(2));
       items.push({ x, y, size: particleSize, opacity, angle: i * 30 });
     }
     return items;

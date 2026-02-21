@@ -632,15 +632,16 @@ const ContactOrb = () => (
         const angle = (i / 40) * 360;
         const rad = ((angle - 90) * Math.PI) / 180;
         const r = 120 + ((i * 7 + 3) % 11) - 5;
-        const x = 140 + r * Math.cos(rad);
-        const y = 140 + r * Math.sin(rad);
-        const op = 0.15 + (((i * 13 + 7) % 17) / 17) * 0.45;
+        const x = Number((140 + r * Math.cos(rad)).toFixed(4));
+        const y = Number((140 + r * Math.sin(rad)).toFixed(4));
+        const op = Number((0.15 + (((i * 13 + 7) % 17) / 17) * 0.45).toFixed(2));
+        const size = Number((0.8 + (((i * 5) % 7) / 7) * 1.4).toFixed(2));
         return (
           <circle
             key={i}
             cx={x}
             cy={y}
-            r={0.8 + (((i * 5) % 7) / 7) * 1.4}
+            r={size}
             fill="#30C0C0"
             opacity={op}
           />

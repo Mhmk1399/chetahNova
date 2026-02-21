@@ -1,4 +1,4 @@
-/* components/faq/FAQ.module.css */
+/* components/ai-solutions/AISolutions.module.css */
 
 /* ════════════════════════════════════════
    SECTION
@@ -12,8 +12,8 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 80% 70% at 50% 40%,
-    #0a1828 0%,
+    ellipse 90% 60% at 50% 30%,
+    #0a1624 0%,
     #080c14 50%,
     #050810 100%
   );
@@ -85,110 +85,179 @@
 /* ════════════════════════════════════════
    HEADER
 ════════════════════════════════════════ */
-.headerBlock {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.headerBlockRevealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .headerDivider {
   height: 1px;
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
   background: linear-gradient(
     to right,
-    transparent,
-    rgba(48, 192, 192, 0.2),
-    transparent
+    rgba(48, 192, 192, 0.18) 0%,
+    #183858 35%,
+    transparent 70%
   );
   margin-top: 8px;
 }
 
 /* ════════════════════════════════════════
-   FAQ LIST
+   ORB SECTION
 ════════════════════════════════════════ */
-.faqList {
-  opacity: 0;
-  transition: opacity 0.5s ease 0.2s;
-  border: 1px solid #0c1828;
-  border-radius: 2px;
-  overflow: hidden;
-  background: rgba(7, 12, 22, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+.orbSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 24px 0;
+  margin: 16px 0;
 }
 
-.faqListRevealed {
-  opacity: 1;
-}
-
-.faqItemWrap {
-  opacity: 0;
-  transform: translateX(-8px);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-}
-
-.faqItemWrapRevealed {
-  opacity: 1;
-  transform: translateX(0);
+.orbLine {
+  flex: 1;
+  height: 1px;
+  max-width: 200px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(48, 192, 192, 0.2),
+    transparent
+  );
 }
 
 /* ════════════════════════════════════════
-   FAQ ROW
+   CENTRAL ORB
 ════════════════════════════════════════ */
-.faqRow {
+.orbWrapper {
   position: relative;
-  border-bottom: 1px solid #0a1624;
-  transition: background 0.3s;
+  width: clamp(160px, 22vw, 220px);
+  height: clamp(160px, 22vw, 220px);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #0c1828;
+  background: rgba(7, 12, 22, 0.5);
 }
 
-.faqRow:last-child {
-  border-bottom: none;
+.orbSvg {
+  width: 90%;
+  height: 90%;
 }
 
-.faqRowOpen {
-  background: rgba(10, 18, 34, 0.7);
+.particleRing {
+  transform-origin: 100px 100px;
+  animation: particleRotate 45s linear infinite;
 }
 
-.faqRow:hover:not(.faqRowOpen) {
-  background: rgba(8, 15, 28, 0.5);
+@keyframes particleRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.rowStripe {
+.orbCore {
+  transform-origin: 100px 100px;
+  animation: orbPulse 4s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.satellite {
+  transform-origin: 100px 100px;
+  animation: satOrbit 12s linear infinite;
+}
+
+@keyframes satOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aiSymbol {
+  animation: aiPulse 3s ease-in-out infinite;
+}
+
+@keyframes aiPulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.orbStatus {
   position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 0;
-  width: 2px;
-  border-radius: 2px;
-  background: linear-gradient(to bottom, transparent, #30c0c0, transparent);
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid rgba(24, 56, 88, 0.5);
+  background: rgba(6, 12, 22, 0.9);
 }
 
-.rowGlow {
+/* ════════════════════════════════════════
+   SOLUTION CARD
+════════════════════════════════════════ */
+.solutionCard {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid #0c1828;
+  border-radius: 2px;
+  background: rgba(7, 12, 22, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.3s,
+    background 0.3s;
+  height: 100%;
+}
+
+.solutionCard:hover {
+  border-color: rgba(48, 192, 192, 0.18);
+  background: rgba(10, 18, 34, 0.85);
+}
+
+.cardRevealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.cardGlow {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 60% 80% at 0% 50%,
+    ellipse 80% 60% at 30% 20%,
     rgba(48, 192, 192, 0.04) 0%,
-    transparent 60%
+    transparent 65%
   );
   transition: opacity 0.4s;
   pointer-events: none;
 }
 
-.rowScanTop {
+.cardScanTop {
   position: absolute;
   top: 0;
   left: 0;
@@ -207,7 +276,7 @@
   pointer-events: none;
 }
 
-.rowScanTopActive {
+.cardScanTopActive {
   background: linear-gradient(
     to right,
     transparent,
@@ -218,7 +287,7 @@
   ) !important;
 }
 
-.rowBottomLine {
+.cardBottomLine {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -231,144 +300,114 @@
     #0c1a28 60%,
     transparent
   );
+  pointer-events: none;
 }
 
 /* ════════════════════════════════════════
-   QUESTION BUTTON
+   TAG BADGE
 ════════════════════════════════════════ */
-.faqBtn {
-  padding: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  outline-offset: -2px;
-}
-
-.faqBtn:focus-visible {
-  outline: 1px solid rgba(48, 192, 192, 0.4);
-}
-
-.questionText {
-  font-size: clamp(12px, 1.5vw, 14px);
-  letter-spacing: 0.03em;
-}
-
-.rowTag {
+.tagBadge {
   display: inline-flex;
-  padding: 2px 6px;
-  border: 1px solid;
-  border-radius: 2px;
-  white-space: nowrap;
-}
-
-/* ════════════════════════════════════════
-   PLUS/MINUS ICON
-════════════════════════════════════════ */
-.iconWrap {
-  width: 28px;
-  height: 28px;
-  border: 1px solid #0e1e30;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border: 1px solid rgba(24, 56, 88, 0.5);
   border-radius: 2px;
   background: rgba(6, 12, 22, 0.8);
-  flex-shrink: 0;
-  margin-top: 1px;
-  transition:
-    border-color 0.3s,
-    background 0.3s;
+  backdrop-filter: blur(8px);
 }
 
-.faqRowOpen .iconWrap {
-  border-color: rgba(48, 192, 192, 0.22);
-  background: rgba(48, 192, 192, 0.05);
+/* ════════════════════════════════════════
+   ICON BOX
+════════════════════════════════════════ */
+.iconBox {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #0e1e2e;
+  border-radius: 2px;
+  background: rgba(8, 16, 28, 0.8);
 }
 
 .iconInner {
-  position: relative;
-  width: 10px;
-  height: 10px;
+  width: 22px;
+  height: 22px;
+  transition:
+    color 0.3s,
+    transform 0.3s;
 }
 
-.iconBar {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  border-radius: 1px;
-  transform-origin: center;
-  display: block;
-  margin-top: -0.5px;
+.iconInner svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* ════════════════════════════════════════
-   ANSWER PANEL
+   STAT ROW
 ════════════════════════════════════════ */
-.animHeight {
-  overflow: hidden;
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.statRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
 }
 
-.answerPanel {
-  position: relative;
-}
-
-.answerAccentLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+.statDivider {
+  flex: 1;
   height: 1px;
   background: linear-gradient(
-    to right,
-    rgba(48, 192, 192, 0.2) 0%,
-    rgba(48, 192, 192, 0.08) 30%,
-    transparent 60%
+    90deg,
+    transparent,
+    rgba(48, 192, 192, 0.15),
+    transparent
   );
-  pointer-events: none;
 }
 
 /* ════════════════════════════════════════
-   CTA BLOCK
+   SECTION DIVIDER
 ════════════════════════════════════════ */
-.ctaBlock {
-  border: 1px solid #0e1e30;
-  border-radius: 2px;
-  background: rgba(7, 13, 24, 0.7);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.5s ease 0.3s,
-    transform 0.5s ease 0.3s,
-    border-color 0.3s;
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
 }
 
-.ctaBlockRevealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.ctaBlock:hover {
-  border-color: rgba(48, 192, 192, 0.14);
-}
-
-.ctaGlow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 70% at 0% 50%,
-    rgba(48, 192, 192, 0.04) 0%,
-    transparent 60%
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(48, 192, 192, 0.2),
+    transparent
   );
-  pointer-events: none;
 }
 
-.ctaPrimary {
-  border: 1px solid #183858;
+.dividerNode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(48, 192, 192, 0.2);
   border-radius: 2px;
-  background: rgba(48, 192, 192, 0.05);
+  background: rgba(8, 14, 26, 0.8);
+}
+
+/* ════════════════════════════════════════
+   CTA LINK
+════════════════════════════════════════ */
+.ctaLink {
+  padding: 10px 20px;
+  border: 1px solid #112030;
+  border-radius: 2px;
+  background: rgba(48, 192, 192, 0.04);
   text-decoration: none;
   transition:
     border-color 0.25s,
@@ -376,13 +415,13 @@
   outline-offset: 3px;
 }
 
-.ctaPrimary:focus-visible {
+.ctaLink:focus-visible {
   outline: 1px solid #30c0c0;
 }
 
-.ctaPrimary:hover {
-  border-color: rgba(48, 192, 192, 0.35);
-  background: rgba(48, 192, 192, 0.1);
+.ctaLink:hover {
+  border-color: rgba(48, 192, 192, 0.3);
+  background: rgba(48, 192, 192, 0.09);
 }
 
 /* ════════════════════════════════════════
@@ -410,30 +449,56 @@
 }
 
 /* ════════════════════════════════════════
+   TRUST ROW
+════════════════════════════════════════ */
+.trustRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* ════════════════════════════════════════
    REDUCED MOTION
 ════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .animHeight {
-    transition: none !important;
-  }
-
-  .headerBlock,
-  .faqList,
-  .faqItemWrap,
-  .ctaBlock {
+  .solutionCard,
+  .cardRevealed {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
+    transition:
+      border-color 0s,
+      background 0s !important;
   }
 
-  .faqRow {
+  .cardScanTop,
+  .ctaLink,
+  .iconInner,
+  .particleRing,
+  .orbCore,
+  .satellite,
+  .aiSymbol {
     transition: none !important;
+    animation: none !important;
   }
 }
 
 /* ════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .orbWrapper {
+    width: 150px;
+    height: 150px;
+  }
+
+  .orbLine {
+    max-width: 120px;
+  }
+}
+
 @media (max-width: 768px) {
   .bottomStrip {
     flex-direction: column;
@@ -444,19 +509,51 @@
   .bottomLine {
     order: -1;
   }
+
+  .trustRow {
+    gap: 16px;
+  }
+
+  .orbSection {
+    padding: 16px 0;
+  }
+
+  .orbWrapper {
+    width: 130px;
+    height: 130px;
+  }
+
+  .orbLine {
+    max-width: 60px;
+  }
 }
 
 @media (max-width: 640px) {
-  .faqBtn {
-    padding: 16px;
+  .solutionCard {
+    padding: 14px;
   }
 
-  .iconWrap {
-    width: 24px;
-    height: 24px;
+  .iconBox {
+    width: 40px;
+    height: 40px;
   }
 
-  .questionText {
-    font-size: 12px;
+  .iconInner {
+    width: 20px;
+    height: 20px;
+  }
+
+  .orbWrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .orbStatus {
+    display: none;
+  }
+
+  .trustRow {
+    flex-direction: column;
+    gap: 8px;
   }
 }

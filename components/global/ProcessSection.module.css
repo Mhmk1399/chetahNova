@@ -1,7 +1,7 @@
-/* components/faq/FAQ.module.css */
+/* components/process/ProcessSection.module.css */
 
 /* ════════════════════════════════════════
-   SECTION
+   SECTION SHELL
 ════════════════════════════════════════ */
 .section {
   background: #070910;
@@ -12,8 +12,8 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 80% 70% at 50% 40%,
-    #0a1828 0%,
+    ellipse 90% 55% at 50% 50%,
+    #0b1828 0%,
     #080c14 50%,
     #050810 100%
   );
@@ -24,7 +24,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  opacity: 0.028;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
   pointer-events: none;
@@ -35,7 +35,7 @@
   inset: 0;
   z-index: 2;
   background: radial-gradient(
-    ellipse 120% 100% at 50% 50%,
+    ellipse 110% 100% at 50% 50%,
     transparent 30%,
     rgba(4, 6, 12, 0.55) 72%,
     rgba(2, 4, 8, 0.88) 100%
@@ -77,7 +77,6 @@
 .borderTop {
   top: 0;
 }
-
 .borderBottom {
   bottom: 0;
 }
@@ -85,116 +84,71 @@
 /* ════════════════════════════════════════
    HEADER
 ════════════════════════════════════════ */
-.headerBlock {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.headerBlockRevealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .headerDivider {
   height: 1px;
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
   background: linear-gradient(
     to right,
-    transparent,
-    rgba(48, 192, 192, 0.2),
-    transparent
+    rgba(48, 192, 192, 0.18) 0%,
+    #183858 35%,
+    transparent 70%
   );
   margin-top: 8px;
 }
 
-/* ════════════════════════════════════════
-   FAQ LIST
-════════════════════════════════════════ */
-.faqList {
-  opacity: 0;
-  transition: opacity 0.5s ease 0.2s;
-  border: 1px solid #0c1828;
+.activePill {
+  border: 1px solid rgba(48, 192, 192, 0.18);
   border-radius: 2px;
-  overflow: hidden;
-  background: rgba(7, 12, 22, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.faqListRevealed {
-  opacity: 1;
-}
-
-.faqItemWrap {
-  opacity: 0;
-  transform: translateX(-8px);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-}
-
-.faqItemWrapRevealed {
-  opacity: 1;
-  transform: translateX(0);
+  background: rgba(48, 192, 192, 0.04);
+  backdrop-filter: blur(8px);
 }
 
 /* ════════════════════════════════════════
-   FAQ ROW
+   STEP CARD
 ════════════════════════════════════════ */
-.faqRow {
+.stepCard {
   position: relative;
-  border-bottom: 1px solid #0a1624;
-  transition: background 0.3s;
+  border: 1px solid #0c1a28;
+  border-radius: 3px;
+  background: rgba(8, 14, 26, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  outline-offset: 3px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
 }
 
-.faqRow:last-child {
-  border-bottom: none;
+.stepCard:focus-visible {
+  outline: 1px solid #30c0c0;
 }
 
-.faqRowOpen {
-  background: rgba(10, 18, 34, 0.7);
+.stepCard:hover {
+  border-color: #183858;
+  background: rgba(10, 18, 34, 0.8);
 }
 
-.faqRow:hover:not(.faqRowOpen) {
-  background: rgba(8, 15, 28, 0.5);
+.stepCardActive {
+  border-color: rgba(48, 192, 192, 0.22) !important;
+  background: rgba(10, 22, 42, 0.88) !important;
 }
 
-.rowStripe {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 0;
-  width: 2px;
-  border-radius: 2px;
-  background: linear-gradient(to bottom, transparent, #30c0c0, transparent);
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+.stepCardRevealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.rowGlow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 80% at 0% 50%,
-    rgba(48, 192, 192, 0.04) 0%,
-    transparent 60%
-  );
-  transition: opacity 0.4s;
-  pointer-events: none;
-}
-
-.rowScanTop {
+.cardTopLine {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  z-index: 10;
   background: linear-gradient(
     to right,
     transparent,
@@ -204,10 +158,9 @@
     transparent
   );
   transition: background 0.4s;
-  pointer-events: none;
 }
 
-.rowScanTopActive {
+.stepCardActive .cardTopLine {
   background: linear-gradient(
     to right,
     transparent,
@@ -215,10 +168,10 @@
     rgba(96, 223, 223, 0.7) 50%,
     rgba(48, 192, 192, 0.5) 75%,
     transparent
-  ) !important;
+  );
 }
 
-.rowBottomLine {
+.cardBottomLine {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -227,162 +180,111 @@
   background: linear-gradient(
     to right,
     transparent,
-    #0c1a28 40%,
-    #0c1a28 60%,
+    #0e1e2e 40%,
+    #0e1e2e 60%,
     transparent
   );
 }
 
-/* ════════════════════════════════════════
-   QUESTION BUTTON
-════════════════════════════════════════ */
-.faqBtn {
-  padding: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  outline-offset: -2px;
-}
-
-.faqBtn:focus-visible {
-  outline: 1px solid rgba(48, 192, 192, 0.4);
-}
-
-.questionText {
-  font-size: clamp(12px, 1.5vw, 14px);
-  letter-spacing: 0.03em;
-}
-
-.rowTag {
-  display: inline-flex;
-  padding: 2px 6px;
-  border: 1px solid;
-  border-radius: 2px;
-  white-space: nowrap;
-}
-
-/* ════════════════════════════════════════
-   PLUS/MINUS ICON
-════════════════════════════════════════ */
-.iconWrap {
-  width: 28px;
-  height: 28px;
-  border: 1px solid #0e1e30;
-  border-radius: 2px;
-  background: rgba(6, 12, 22, 0.8);
-  flex-shrink: 0;
-  margin-top: 1px;
-  transition:
-    border-color 0.3s,
-    background 0.3s;
-}
-
-.faqRowOpen .iconWrap {
-  border-color: rgba(48, 192, 192, 0.22);
-  background: rgba(48, 192, 192, 0.05);
-}
-
-.iconInner {
-  position: relative;
-  width: 10px;
-  height: 10px;
-}
-
-.iconBar {
+.cardLeftStripe {
   position: absolute;
-  top: 50%;
+  top: 10%;
+  bottom: 10%;
   left: 0;
-  right: 0;
-  height: 1px;
-  border-radius: 1px;
-  transform-origin: center;
-  display: block;
-  margin-top: -0.5px;
-}
-
-/* ════════════════════════════════════════
-   ANSWER PANEL
-════════════════════════════════════════ */
-.animHeight {
-  overflow: hidden;
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.answerPanel {
-  position: relative;
-}
-
-.answerAccentLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    rgba(48, 192, 192, 0.2) 0%,
-    rgba(48, 192, 192, 0.08) 30%,
-    transparent 60%
-  );
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, #30c0c0, transparent);
+  transition: opacity 0.35s ease;
   pointer-events: none;
 }
 
-/* ════════════════════════════════════════
-   CTA BLOCK
-════════════════════════════════════════ */
-.ctaBlock {
-  border: 1px solid #0e1e30;
-  border-radius: 2px;
-  background: rgba(7, 13, 24, 0.7);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.5s ease 0.3s,
-    transform 0.5s ease 0.3s,
-    border-color 0.3s;
-}
-
-.ctaBlockRevealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.ctaBlock:hover {
-  border-color: rgba(48, 192, 192, 0.14);
-}
-
-.ctaGlow {
+.cardGlow {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 60% 70% at 0% 50%,
-    rgba(48, 192, 192, 0.04) 0%,
-    transparent 60%
+    ellipse 85% 70% at 50% 100%,
+    rgba(48, 192, 192, 0.055) 0%,
+    transparent 70%
   );
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
-.ctaPrimary {
-  border: 1px solid #183858;
+.cardExpand {
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ════════════════════════════════════════
+   HEX ICON
+════════════════════════════════════════ */
+.hexWrap {
+  width: 48px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   CAPACITY BAR
+════════════════════════════════════════ */
+.capacityFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
   border-radius: 2px;
-  background: rgba(48, 192, 192, 0.05);
-  text-decoration: none;
-  transition:
-    border-color 0.25s,
-    background 0.25s;
-  outline-offset: 3px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.ctaPrimary:focus-visible {
-  outline: 1px solid #30c0c0;
+.capacityTip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 5px;
+  border-radius: 1px;
+  transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.ctaPrimary:hover {
-  border-color: rgba(48, 192, 192, 0.35);
-  background: rgba(48, 192, 192, 0.1);
+/* ════════════════════════════════════════
+   DURATION PILL
+════════════════════════════════════════ */
+.durationPill {
+  border: 1px solid #0e1e2e;
+  border-radius: 2px;
+  background: rgba(6, 14, 24, 0.8);
+}
+
+/* ════════════════════════════════════════
+   FLOW CONNECTOR
+════════════════════════════════════════ */
+.flowConnector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.connectorLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(48, 192, 192, 0.15),
+    transparent
+  );
+}
+
+.connectorNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid #0c1828;
+  border-radius: 2px;
+  background: rgba(6, 12, 22, 0.8);
 }
 
 /* ════════════════════════════════════════
@@ -409,24 +311,46 @@
   );
 }
 
+.ctaLink {
+  padding: 10px 20px;
+  border: 1px solid #112030;
+  border-radius: 2px;
+  background: rgba(48, 192, 192, 0.04);
+  text-decoration: none;
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+  outline-offset: 3px;
+}
+
+.ctaLink:focus-visible {
+  outline: 1px solid #30c0c0;
+}
+
+.ctaLink:hover {
+  border-color: rgba(48, 192, 192, 0.3);
+  background: rgba(48, 192, 192, 0.09);
+}
+
 /* ════════════════════════════════════════
    REDUCED MOTION
 ════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .animHeight {
+  .stepCard {
+    transition:
+      border-color 0s,
+      background 0s !important;
+  }
+  .cardExpand {
     transition: none !important;
   }
-
-  .headerBlock,
-  .faqList,
-  .faqItemWrap,
-  .ctaBlock {
+  .capacityFill,
+  .capacityTip {
+    transition: none !important;
+  }
+  .stepCardRevealed {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
-  }
-
-  .faqRow {
     transition: none !important;
   }
 }
@@ -447,16 +371,8 @@
 }
 
 @media (max-width: 640px) {
-  .faqBtn {
-    padding: 16px;
-  }
-
-  .iconWrap {
-    width: 24px;
-    height: 24px;
-  }
-
-  .questionText {
-    font-size: 12px;
+  .hexWrap {
+    width: 40px;
+    height: 46px;
   }
 }

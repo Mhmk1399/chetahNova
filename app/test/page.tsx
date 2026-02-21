@@ -1,35 +1,65 @@
+import CTASection from "@/components/global/CTAsection";
 import Faq from "@/components/global/Faq";
 import Lead from "@/components/global/Lead";
-import Services from "@/components/global/Servicesection";
-import WhyUs from "@/components/global/WhyUs";
-import Work from "@/components/global/Work";
+import ServicesOverview from "@/components/global/OurService";
+import ProcessSection from "@/components/global/ProcessSection";
+import Testimonials from "@/components/global/Testimonial";
+import WhyChooseUs from "@/components/global/WhyChooseUs";
+// import Work from "@/components/global/Work";
+import AISolutions from "@/components/static/AiSolution";
 import HeroSection from "@/components/static/HeroSection";
+import PortfolioPreview from "@/components/static/PortfolioPreview";
+import TrustBar from "@/components/static/trustbar";
 
 const page = () => {
   return (
     <main>
-       <section id="hero-section">
+      <section>
         {" "}
         <HeroSection />{" "}
       </section>
-      <section id="whyus">
+      <section>
         {" "}
-        <WhyUs />{" "}
+        <TrustBar />{" "}
       </section>
-      <section id="services">
+      <section>
         {" "}
-        <Services />{" "}
+        <ServicesOverview />{" "}
       </section>
-      <section id="work">
+      <section>
+        {" "}
+        <AISolutions />{" "}
+      </section>
+      <section>
+        {" "}
+        <WhyChooseUs />{" "}
+      </section>
+      <section>
+        {" "}
+        <ProcessSection />{" "}
+      </section>
+      <section>
+        {" "}
+        <PortfolioPreview />{" "}
+      </section>
+      <section>
+        {" "}
+        <Testimonials />{" "}
+      </section>
+      <section>
+        {" "}
+        <CTASection />{" "}
+      </section>
+      {/* <section>
         {" "}
         <Work />{" "}
-      </section>
+      </section> */}
 
-      <section id="lead">
+      <section>
         {" "}
         <Lead />{" "}
       </section>
-      <section id="faq">
+      <section>
         {" "}
         <Faq />{" "}
       </section>

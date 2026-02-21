@@ -1,4 +1,4 @@
-/* components/faq/FAQ.module.css */
+/* components/trust-bar/TrustBar.module.css */
 
 /* ════════════════════════════════════════
    SECTION
@@ -12,8 +12,8 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 80% 70% at 50% 40%,
-    #0a1828 0%,
+    ellipse 90% 60% at 50% 30%,
+    #0a1624 0%,
     #080c14 50%,
     #050810 100%
   );
@@ -85,110 +85,151 @@
 /* ════════════════════════════════════════
    HEADER
 ════════════════════════════════════════ */
-.headerBlock {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.headerBlockRevealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .headerDivider {
   height: 1px;
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
   background: linear-gradient(
     to right,
-    transparent,
-    rgba(48, 192, 192, 0.2),
-    transparent
+    rgba(48, 192, 192, 0.18) 0%,
+    #183858 35%,
+    transparent 70%
   );
   margin-top: 8px;
 }
 
 /* ════════════════════════════════════════
-   FAQ LIST
+   STAT CARD
 ════════════════════════════════════════ */
-.faqList {
-  opacity: 0;
-  transition: opacity 0.5s ease 0.2s;
-  border: 1px solid #0c1828;
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 18px 14px;
+  border: 1px solid #0e1e30;
   border-radius: 2px;
-  overflow: hidden;
-  background: rgba(7, 12, 22, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.faqListRevealed {
-  opacity: 1;
-}
-
-.faqItemWrap {
+  background: rgba(8, 14, 26, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   opacity: 0;
-  transform: translateX(-8px);
+  transform: translateY(16px);
   transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.3s,
+    background 0.3s;
 }
 
-.faqItemWrapRevealed {
-  opacity: 1;
-  transform: translateX(0);
+.statCard:hover {
+  border-color: rgba(48, 192, 192, 0.2);
+  background: rgba(12, 22, 38, 0.85);
 }
 
-/* ════════════════════════════════════════
-   FAQ ROW
-════════════════════════════════════════ */
-.faqRow {
-  position: relative;
-  border-bottom: 1px solid #0a1624;
-  transition: background 0.3s;
+.statRevealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
-.faqRow:last-child {
-  border-bottom: none;
-}
-
-.faqRowOpen {
-  background: rgba(10, 18, 34, 0.7);
-}
-
-.faqRow:hover:not(.faqRowOpen) {
-  background: rgba(8, 15, 28, 0.5);
-}
-
-.rowStripe {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 0;
-  width: 2px;
-  border-radius: 2px;
-  background: linear-gradient(to bottom, transparent, #30c0c0, transparent);
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.rowGlow {
+.statGlow {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 60% 80% at 0% 50%,
-    rgba(48, 192, 192, 0.04) 0%,
-    transparent 60%
+    ellipse 80% 80% at 50% 110%,
+    rgba(48, 192, 192, 0.06) 0%,
+    transparent 70%
   );
   transition: opacity 0.4s;
   pointer-events: none;
 }
 
-.rowScanTop {
+.statScanLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #30c0c0, transparent);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ════════════════════════════════════════
+   SECTION DIVIDER
+════════════════════════════════════════ */
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(48, 192, 192, 0.2),
+    transparent
+  );
+}
+
+.dividerNode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(48, 192, 192, 0.2);
+  border-radius: 2px;
+  background: rgba(8, 14, 26, 0.8);
+}
+
+/* ════════════════════════════════════════
+   TRUST CARD
+════════════════════════════════════════ */
+.trustCard {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid #0c1828;
+  border-radius: 2px;
+  background: rgba(7, 12, 22, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.3s,
+    background 0.3s;
+}
+
+.trustCard:hover {
+  border-color: rgba(48, 192, 192, 0.18);
+  background: rgba(10, 18, 34, 0.85);
+}
+
+.cardRevealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 30% 50%,
+    rgba(48, 192, 192, 0.04) 0%,
+    transparent 65%
+  );
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.cardScanTop {
   position: absolute;
   top: 0;
   left: 0;
@@ -207,7 +248,7 @@
   pointer-events: none;
 }
 
-.rowScanTopActive {
+.cardScanTopActive {
   background: linear-gradient(
     to right,
     transparent,
@@ -218,7 +259,7 @@
   ) !important;
 }
 
-.rowBottomLine {
+.cardBottomLine {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -231,144 +272,60 @@
     #0c1a28 60%,
     transparent
   );
+  pointer-events: none;
 }
 
 /* ════════════════════════════════════════
-   QUESTION BUTTON
+   TAG BADGE
 ════════════════════════════════════════ */
-.faqBtn {
-  padding: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  outline-offset: -2px;
-}
-
-.faqBtn:focus-visible {
-  outline: 1px solid rgba(48, 192, 192, 0.4);
-}
-
-.questionText {
-  font-size: clamp(12px, 1.5vw, 14px);
-  letter-spacing: 0.03em;
-}
-
-.rowTag {
+.tagBadge {
   display: inline-flex;
-  padding: 2px 6px;
-  border: 1px solid;
-  border-radius: 2px;
-  white-space: nowrap;
-}
-
-/* ════════════════════════════════════════
-   PLUS/MINUS ICON
-════════════════════════════════════════ */
-.iconWrap {
-  width: 28px;
-  height: 28px;
-  border: 1px solid #0e1e30;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border: 1px solid rgba(24, 56, 88, 0.5);
   border-radius: 2px;
   background: rgba(6, 12, 22, 0.8);
-  flex-shrink: 0;
-  margin-top: 1px;
-  transition:
-    border-color 0.3s,
-    background 0.3s;
+  backdrop-filter: blur(8px);
 }
 
-.faqRowOpen .iconWrap {
-  border-color: rgba(48, 192, 192, 0.22);
-  background: rgba(48, 192, 192, 0.05);
+/* ════════════════════════════════════════
+   ICON BOX
+════════════════════════════════════════ */
+.iconBox {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #0e1e2e;
+  border-radius: 2px;
+  background: rgba(8, 16, 28, 0.8);
 }
 
 .iconInner {
-  position: relative;
-  width: 10px;
-  height: 10px;
-}
-
-.iconBar {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  border-radius: 1px;
-  transform-origin: center;
-  display: block;
-  margin-top: -0.5px;
-}
-
-/* ════════════════════════════════════════
-   ANSWER PANEL
-════════════════════════════════════════ */
-.animHeight {
-  overflow: hidden;
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.answerPanel {
-  position: relative;
-}
-
-.answerAccentLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    rgba(48, 192, 192, 0.2) 0%,
-    rgba(48, 192, 192, 0.08) 30%,
-    transparent 60%
-  );
-  pointer-events: none;
-}
-
-/* ════════════════════════════════════════
-   CTA BLOCK
-════════════════════════════════════════ */
-.ctaBlock {
-  border: 1px solid #0e1e30;
-  border-radius: 2px;
-  background: rgba(7, 13, 24, 0.7);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  opacity: 0;
-  transform: translateY(16px);
+  width: 22px;
+  height: 22px;
   transition:
-    opacity 0.5s ease 0.3s,
-    transform 0.5s ease 0.3s,
-    border-color 0.3s;
+    color 0.3s,
+    transform 0.3s;
 }
 
-.ctaBlockRevealed {
-  opacity: 1;
-  transform: translateY(0);
+.iconInner svg {
+  width: 100%;
+  height: 100%;
 }
 
-.ctaBlock:hover {
-  border-color: rgba(48, 192, 192, 0.14);
-}
-
-.ctaGlow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 70% at 0% 50%,
-    rgba(48, 192, 192, 0.04) 0%,
-    transparent 60%
-  );
-  pointer-events: none;
-}
-
-.ctaPrimary {
-  border: 1px solid #183858;
+/* ════════════════════════════════════════
+   CTA LINK
+════════════════════════════════════════ */
+.ctaLink {
+  padding: 8px 16px;
+  border: 1px solid #112030;
   border-radius: 2px;
-  background: rgba(48, 192, 192, 0.05);
+  background: rgba(48, 192, 192, 0.04);
   text-decoration: none;
   transition:
     border-color 0.25s,
@@ -376,13 +333,13 @@
   outline-offset: 3px;
 }
 
-.ctaPrimary:focus-visible {
+.ctaLink:focus-visible {
   outline: 1px solid #30c0c0;
 }
 
-.ctaPrimary:hover {
-  border-color: rgba(48, 192, 192, 0.35);
-  background: rgba(48, 192, 192, 0.1);
+.ctaLink:hover {
+  border-color: rgba(48, 192, 192, 0.3);
+  background: rgba(48, 192, 192, 0.09);
 }
 
 /* ════════════════════════════════════════
@@ -413,20 +370,19 @@
    REDUCED MOTION
 ════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .animHeight {
-    transition: none !important;
-  }
-
-  .headerBlock,
-  .faqList,
-  .faqItemWrap,
-  .ctaBlock {
+  .statCard,
+  .trustCard {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
+    transition:
+      border-color 0s,
+      background 0s !important;
   }
 
-  .faqRow {
+  .cardScanTop,
+  .ctaLink,
+  .statScanLine,
+  .iconInner {
     transition: none !important;
   }
 }
@@ -447,16 +403,21 @@
 }
 
 @media (max-width: 640px) {
-  .faqBtn {
-    padding: 16px;
+  .statCard {
+    padding: 14px 10px;
   }
 
-  .iconWrap {
-    width: 24px;
-    height: 24px;
+  .trustCard {
+    padding: 12px;
   }
 
-  .questionText {
-    font-size: 12px;
+  .iconBox {
+    width: 38px;
+    height: 38px;
+  }
+
+  .iconInner {
+    width: 18px;
+    height: 18px;
   }
 }
