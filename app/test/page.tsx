@@ -1,69 +1,30 @@
-import CTASection from "@/components/global/CTAsection";
-import Faq from "@/components/global/Faq";
-import Lead from "@/components/global/Lead";
-import ServicesOverview from "@/components/global/OurService";
-import ProcessSection from "@/components/global/ProcessSection";
-import Testimonials from "@/components/global/Testimonial";
+import AISolutions from "@/components/static/Home/AISolutions";
+import ContactSection from "@/components/static/Home/ContactSection";
+import CTASection from "@/components/global/CTASection";
+import FAQSection from "@/components/global/FAQSection";
+import HeroSection from "@/components/static/Home/Herosection";
+import PortfolioSection from "@/components/static/Home/PortfolioSection";
+import ProcessSection from "@/components/static/Home/ProcessSection";
+import Services from "@/components/static/Home/Services";
+import TestimonialsSection from "@/components/global/TestimonialsSection";
+import TrustSection from "@/components/static/Home/Trust";
 import WhyChooseUs from "@/components/global/WhyChooseUs";
-// import Work from "@/components/global/Work";
-import AISolutions from "@/components/static/AiSolution";
-import HeroSection from "@/components/static/HeroSection";
-import PortfolioPreview from "@/components/static/PortfolioPreview";
-import TrustBar from "@/components/static/trustbar";
 
 const page = () => {
   return (
-    <main>
-      <section>
-        {" "}
-        <HeroSection />{" "}
-      </section>
-      <section>
-        {" "}
-        <TrustBar />{" "}
-      </section>
-      <section>
-        {" "}
-        <ServicesOverview />{" "}
-      </section>
-      <section>
-        {" "}
-        <AISolutions />{" "}
-      </section>
-      <section>
-        {" "}
-        <WhyChooseUs />{" "}
-      </section>
-      <section>
-        {" "}
-        <ProcessSection />{" "}
-      </section>
-      <section>
-        {" "}
-        <PortfolioPreview />{" "}
-      </section>
-      <section>
-        {" "}
-        <Testimonials />{" "}
-      </section>
-      <section>
-        {" "}
-        <CTASection />{" "}
-      </section>
-      {/* <section>
-        {" "}
-        <Work />{" "}
-      </section> */}
-
-      <section>
-        {" "}
-        <Lead />{" "}
-      </section>
-      <section>
-        {" "}
-        <Faq />{" "}
-      </section>
-    </main>
+    <div>
+      <HeroSection />
+      {/* <TrustSection /> */}
+      <Services />
+      <AISolutions />
+      <WhyChooseUs />
+      <ProcessSection />
+      <PortfolioSection />
+      <TestimonialsSection  />
+      <CTASection  />
+      <FAQSection  />
+      <ContactSection  />
+    </div>
   );
 };
 
