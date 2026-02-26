@@ -874,7 +874,7 @@ function SEOSection() {
       ref={sectionRef}
       id="seo-services"
       aria-labelledby="seo-title"
-      className="relative w-full overflow-hidden py-20 md:py-28 lg:py-36"
+      className="relative w-full overflow-hidden py-16 md:py-28 lg:py-36"
       style={{ backgroundColor: T.BG }}
     >
       {/* ── Grid Background ──────────────────────────────── */}

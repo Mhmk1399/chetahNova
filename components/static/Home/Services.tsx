@@ -182,7 +182,7 @@ const defaultConfig: ServicesConfig = {
       icon: Icons.webDesign,
       accentColor: "#F59E0B",
       image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Web+Design+%26+Development.webp",
     },
     {
       id: "seo",
@@ -202,7 +202,7 @@ const defaultConfig: ServicesConfig = {
       icon: Icons.seo,
       accentColor: "#06B6D4",
       image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/SEO+%26+Google+Growth.webp",
     },
     {
       id: "ai-automation",
@@ -222,7 +222,7 @@ const defaultConfig: ServicesConfig = {
       icon: Icons.ai,
       accentColor: "#8B5CF6",
       image:
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Website+Automation.webp",
     },
   ],
   cta: {
@@ -262,7 +262,7 @@ const SectionBackground = memo(function SectionBackground({
 
       {/* Dynamic Gradient based on active service */}
       <div
-        className="absolute left-1/2 top-1/2 h-[800px] w-[1200px] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
+        className="absolute left-1/2 top-1/2 h-200 w-300 -translate-x-1/2 -translate-y-1/2 transition-all duration-1000"
         style={{
           background: `radial-gradient(ellipse, ${activeColor}08 0%, transparent 60%)`,
           filter: "blur(80px)",
@@ -332,7 +332,7 @@ const SectionHeader = memo(function SectionHeader({
 
       {/* Headline */}
       <h2
-        className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.5rem]"
+        className="text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.5rem]"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -784,7 +784,7 @@ const ServiceCardMobile = memo(function ServiceCardMobile({
         }}
       >
         <div className="overflow-hidden">
-          <div className="border-t border-white/[0.04] p-5">
+          <div className="border-t border-white/4 p-5">
             {/* Image */}
             <div className="relative mb-5 aspect-video overflow-hidden">
               <img
@@ -832,7 +832,7 @@ const ServiceCardMobile = memo(function ServiceCardMobile({
               {service.features.map((feature, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-1.5 border border-white/[0.06] bg-white/2 px-2.5 py-1.5"
+                  className="flex items-center gap-1.5 border border-white/6 bg-white/2 px-2.5 py-1.5"
                 >
                   <span
                     className="h-3 w-3"
@@ -1051,7 +1051,7 @@ const ServicesOverview: React.FC<{ config?: ServicesConfig }> = ({
     <section
       ref={sectionRef}
       id="services"
-      className="relative overflow-hidden py-20 md:py-32"
+      className="relative overflow-hidden py-16 md:py-32"
       aria-labelledby="services-headline"
     >
       <SectionBackground
@@ -1097,7 +1097,7 @@ const ServicesOverview: React.FC<{ config?: ServicesConfig }> = ({
                 activeIndex={activeIndex}
                 onSelect={setActiveIndex}
               />
-              <div className="relative min-h-[500px]">
+              <div className="relative min-h-125">
                 {services.map((service, index) => (
                   <div
                     key={service.id}

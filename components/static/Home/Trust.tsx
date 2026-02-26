@@ -339,7 +339,7 @@ const Background = memo(function Background() {
 
       {/* Primary Glow */}
       <div
-        className="absolute -left-40 top-1/4 h-[500px] w-[500px]"
+        className="absolute -left-40 top-1/4 h-125 w-125"
         style={{
           background: `radial-gradient(circle, ${colors.primary}10 0%, transparent 70%)`,
           filter: "blur(80px)",
@@ -348,7 +348,7 @@ const Background = memo(function Background() {
 
       {/* Secondary Glow */}
       <div
-        className="absolute -right-40 top-1/2 h-[400px] w-[400px]"
+        className="absolute -right-40 top-1/2 h-100 w-100"
         style={{
           background: `radial-gradient(circle, ${colors.secondary}08 0%, transparent 70%)`,
           filter: "blur(80px)",
@@ -357,7 +357,7 @@ const Background = memo(function Background() {
 
       {/* Accent Glow */}
       <div
-        className="absolute bottom-0 left-1/2 h-[300px] w-[600px] -translate-x-1/2"
+        className="absolute bottom-0 left-1/2 h-[300px] w-150 -translate-x-1/2"
         style={{
           background: `radial-gradient(ellipse, ${colors.accent}06 0%, transparent 70%)`,
           filter: "blur(60px)",
@@ -989,7 +989,7 @@ const TrustBar: React.FC<TrustBarProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-20 md:py-32"
+      className="relative overflow-hidden py-16 md:py-32"
       style={{ backgroundColor: colors.dark }}
       aria-label="Trust indicators and social proof"
     >

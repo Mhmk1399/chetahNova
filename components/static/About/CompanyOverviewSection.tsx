@@ -683,7 +683,7 @@ export default function CompanyOverviewSection({
             <CornerMarkers />
 
             {/* Content */}
-            <div className="relative px-6 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
+            <div className="relative px-6 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-16">
               {/* Eyebrow */}
               <p
                 ref={addContentRef}

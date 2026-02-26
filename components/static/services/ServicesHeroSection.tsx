@@ -202,7 +202,7 @@ const ServiceCard = memo(function ServiceCard({
         group relative overflow-hidden border border-white/[0.06] 
         bg-linear-to-br from-white/[0.03] to-transparent
         backdrop-blur-sm transition-all duration-700
-        hover:border-white/[0.12] hover:from-white/[0.05]
+        hover:border-white/[0.12] hover:from-white/5
         ${isLarge ? "p-8 lg:p-10" : "p-6 lg:p-8"}
       `}
       style={{

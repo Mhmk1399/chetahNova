@@ -469,7 +469,7 @@ export default function HeroSection({
       <SystemMarkers />
 
       {/* Main content */}
-      <div className="  flex min-h-screen relative mx-auto max-w-[99%] md:max-w-[95%] px-4  flex-col  py-20   lg:flex-row lg:items-center lg:gap-16   lg:py-0 xl:gap-24">
+      <div className="  flex min-h-screen relative mx-auto max-w-[99%] md:max-w-[95%] px-4  flex-col  py-16   lg:flex-row lg:items-center lg:gap-16   lg:py-0 xl:gap-24">
         {/* Image - First on mobile */}
         <div className="order-1 mb-12 shrink-0 lg:order-2 lg:mb-0 lg:w-[45%]">
           <ImageFrame

@@ -25,6 +25,7 @@ interface AISolution {
   status: "active" | "processing" | "ready";
   gradient: string;
   size?: "normal" | "large";
+  image?: string;
 }
 
 interface AISolutionsConfig {
@@ -209,6 +210,7 @@ const defaultConfig: AISolutionsConfig = {
       status: "active",
       gradient: "from-emerald-500 to-cyan-500",
       size: "large",
+      image: "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Customer+Support+Agent.webp",
     },
     {
       id: "lead",
@@ -220,6 +222,8 @@ const defaultConfig: AISolutionsConfig = {
       stats: { label: "Accuracy", value: "94%" },
       status: "processing",
       gradient: "from-violet-500 to-purple-500",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Lead+Qualification.webp",
     },
     {
       id: "booking",
@@ -231,6 +235,8 @@ const defaultConfig: AISolutionsConfig = {
       stats: { label: "Time Saved", value: "12h/wk" },
       status: "ready",
       gradient: "from-amber-500 to-orange-500",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Booking+Automation.webp",
     },
     {
       id: "analytics",
@@ -243,6 +249,8 @@ const defaultConfig: AISolutionsConfig = {
       status: "active",
       gradient: "from-cyan-500 to-blue-500",
       size: "large",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Analytics+Dashboard.webp",
     },
     {
       id: "content",
@@ -254,6 +262,8 @@ const defaultConfig: AISolutionsConfig = {
       stats: { label: "Words/Min", value: "500+" },
       status: "processing",
       gradient: "from-pink-500 to-rose-500",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Content+Generator.webp",
     },
     {
       id: "sales",
@@ -265,6 +275,8 @@ const defaultConfig: AISolutionsConfig = {
       stats: { label: "Conv. Boost", value: "+35%" },
       status: "active",
       gradient: "from-indigo-500 to-violet-500",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Sales+Assistant.webp",
     },
   ],
   cta: {
@@ -540,6 +552,22 @@ const AISolutionCard = memo(function AISolutionCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Blurred Image Background */}
+      {solution.image && (
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{ opacity: isHovered ? 0.4 : 0.4 }}
+        >
+          <div
+            className={`absolute inset-0 bg-cover bg-center  ${isHovered ? "blur-md" : ""}   scale-110 transition-transform duration-700`}
+            style={{
+              backgroundImage: `url(${solution.image})`,
+              transform: isHovered ? "scale(1.1)" : "scale(1)",
+            }}
+          />
+        </div>
+      )}
+
       {/* Gradient Background */}
       <div
         className={`
@@ -550,7 +578,7 @@ const AISolutionCard = memo(function AISolutionCard({
       />
 
       {/* Grid Pattern */}
-      <div
+      {/* <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500"
         style={{
           opacity: isHovered ? 0.1 : 0,
@@ -560,7 +588,7 @@ const AISolutionCard = memo(function AISolutionCard({
           `,
           backgroundSize: "20px 20px",
         }}
-      />
+      /> */}
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col p-6 lg:p-8">
@@ -591,7 +619,7 @@ const AISolutionCard = memo(function AISolutionCard({
                 solution.icon
               ) : (
                 <div
-                  className={`h-7 w-7 bg-linear-to-br ${solution.gradient} [mask-image:var(--icon)] [mask-size:contain] [mask-repeat:no-repeat]`}
+                  className={`h-7 w-7 bg-linear-to-br ${solution.gradient} mask-(--icon) mask-contain mask-no-repeat`}
                 >
                   <div className="h-full w-full" style={{ color: "white" }}>
                     {solution.icon}
@@ -788,7 +816,7 @@ const LiveDemoPreview = memo(function LiveDemoPreview({
 
   return (
     <div
-      className="relative overflow-hidden border border-white/[0.06] bg-[#0A0C12]/80 backdrop-blur-xl"
+      className="relative overflow-hidden border border-white/6 bg-[#0A0C12]/80 backdrop-blur-xl"
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? "translateY(0)" : "translateY(20px)",
@@ -796,7 +824,7 @@ const LiveDemoPreview = memo(function LiveDemoPreview({
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
+      <div className="flex items-center justify-between border-b border-white/6 px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center bg-linear-to-br from-violet-500 to-purple-500">
             <span className="h-4 w-4 text-white">{Icons.brain}</span>
@@ -831,7 +859,7 @@ const LiveDemoPreview = memo(function LiveDemoPreview({
                   ${
                     msg.role === "user"
                       ? "bg-linear-to-r from-violet-500/20 to-purple-500/20 border border-violet-500/30 text-white"
-                      : "bg-white/[0.03] border border-white/[0.06] text-white/80"
+                      : "bg-white/3 border border-white/6 text-white/80"
                   }
                 `}
               >
@@ -843,7 +871,7 @@ const LiveDemoPreview = memo(function LiveDemoPreview({
           {/* Typing Indicator */}
           {isTyping && (
             <div className="flex justify-start">
-              <div className="flex items-center gap-1 border border-white/[0.06] bg-white/[0.03] px-4 py-3">
+              <div className="flex items-center gap-1 border border-white/6 bg-white/3 px-4 py-3">
                 <span
                   className="h-2 w-2 animate-bounce rounded-full bg-white/40"
                   style={{ animationDelay: "0ms" }}
@@ -863,9 +891,9 @@ const LiveDemoPreview = memo(function LiveDemoPreview({
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-white/[0.06] p-4">
+      <div className="border-t border-white/6 p-4">
         <div className="flex items-center gap-3">
-          <div className="flex-1 border border-white/[0.08] bg-white/2 px-4 py-3">
+          <div className="flex-1 border border-white/8 bg-white/2 px-4 py-3">
             <span className="text-sm text-white/30">Type your message...</span>
           </div>
           <button className="flex h-12 w-12 items-center justify-center bg-linear-to-r from-violet-500 to-purple-500 transition-transform hover:scale-105">
@@ -924,7 +952,7 @@ const SectionHeader = memo(function SectionHeader({
 
       {/* Headline */}
       <h2
-        className="max-w-3xl text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+        className="max-w-3xl text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -1009,7 +1037,7 @@ const StatsBar = memo(function StatsBar({ isVisible }: { isVisible: boolean }) {
 
   return (
     <div
-      className="flex flex-wrap items-center justify-center gap-6 border-y border-white/[0.04] py-6 md:gap-12"
+      className="flex flex-wrap items-center justify-center gap-6 border-y border-white/4 py-6 md:gap-12"
       style={{
         opacity: isVisible ? 1 : 0,
         transition: "opacity 0.8s ease 0.5s",
@@ -1066,7 +1094,7 @@ const AISolutions: React.FC<{ config?: AISolutionsConfig }> = ({
     <section
       ref={sectionRef}
       id="ai-solutions"
-      className="relative overflow-hidden bg-[#08090C] py-20 md:py-32"
+      className="relative overflow-hidden bg-[#08090C] py-16 md:py-32"
       aria-labelledby="ai-headline"
     >
       {/* Background */}
@@ -1078,7 +1106,7 @@ const AISolutions: React.FC<{ config?: AISolutionsConfig }> = ({
 
         {/* Side Gradients */}
         <div
-          className="absolute left-0 top-1/2 h-[600px] w-[400px] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-0 top-1/2 h-150 w-100 -translate-x-1/2 -translate-y-1/2"
           style={{
             background:
               "radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%)",
@@ -1086,7 +1114,7 @@ const AISolutions: React.FC<{ config?: AISolutionsConfig }> = ({
           }}
         />
         <div
-          className="absolute right-0 top-1/2 h-[600px] w-[400px] -translate-y-1/2 translate-x-1/2"
+          className="absolute right-0 top-1/2 h-150 w-100 -translate-y-1/2 translate-x-1/2"
           style={{
             background:
               "radial-gradient(ellipse, rgba(168,85,247,0.1) 0%, transparent 70%)",

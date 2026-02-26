@@ -425,7 +425,7 @@ const DeviceFrame = memo(function DeviceFrame({
   const frameStyles: Record<typeof type, string> = {
     laptop: "aspect-[16/10]",
     mobile: "aspect-[9/19]",
-    dashboard: "aspect-[4/3]",
+    dashboard: "aspect-4/3",
   };
 
   return (
@@ -1123,7 +1123,7 @@ const PortfolioHeroSection = memo(function PortfolioHeroSection() {
       <div className="relative z-10 flex min-h-screen items-center">
         <div
           ref={contentRef}
-          className="relative   mx-auto max-w-[99%] md:max-w-[95%] px-4 py-20   sm:py-24 md:py-28   lg:py-32"
+          className="relative   mx-auto max-w-[99%] md:max-w-[95%] px-4 py-16   sm:py-24 md:py-28   lg:py-16"
         >
           <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
             {/* ====== LEFT COLUMN: Content ====== */}

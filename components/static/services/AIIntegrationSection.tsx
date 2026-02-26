@@ -850,7 +850,7 @@ const AIIntegrationSection = memo(function AIIntegrationSection() {
       ref={sectionRef}
       id={CONTENT.sectionId}
       aria-labelledby="ai-section-title"
-      className="relative min-h-screen overflow-hidden bg-[#0B0F19] py-16 sm:py-24 lg:py-32"
+      className="relative min-h-screen overflow-hidden bg-[#0B0F19] py-16 sm:py-24 lg:py-16"
     >
       {/* ====== BACKGROUND LAYERS ====== */}
       <GridOverlay />

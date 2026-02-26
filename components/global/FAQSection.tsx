@@ -699,7 +699,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-24 md:py-32 lg:py-20"
+      className="relative overflow-hidden py-24 md:py-32 lg:py-16"
       style={{ backgroundColor: colors.dark }}
       aria-labelledby="faq-heading"
     >
@@ -737,7 +737,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
           {/* Headline */}
           <h2
             id="faq-heading"
-            className="header-anim mb-6 text-3xl font-bold text-white md:text-4xl lg:text-5xl"
+            className="header-anim mb-6 text-3xl font-black text-white md:text-4xl lg:text-5xl"
           >
             Frequently Asked{" "}
             <span

@@ -1,9 +1,16 @@
-// Type declarations for CSS modules and side-effect imports
+// Type declarations for CSS modules
+declare module "*.module.css" {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
 declare module "*.css" {
   const content: { [className: string]: string };
   export = content;
-  export default content;
 }
+
+// Allow side-effect CSS imports (import "./file.css";)
+declare module "*.css";
 
 // Extend React.CSSProperties to support CSS custom properties (variables)
 // This allows using inline styles with CSS variables like --tw-ring-color

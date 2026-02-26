@@ -750,7 +750,7 @@ export default function MissionVisionSection({
       ref={sectionRef}
       id={id}
       aria-label="Our Mission and Vision"
-      className="relative w-full overflow-hidden py-20 sm:py-28 lg:py-36"
+      className="relative w-full overflow-hidden py-16 sm:py-16 lg:py-36"
       style={{ backgroundColor: COLORS.background }}
     >
       {/* Background layers */}

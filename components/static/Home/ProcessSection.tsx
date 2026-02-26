@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, memo, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import Image from "next/image";
 
 // Register GSAP Plugin
 if (typeof window !== "undefined") {
@@ -32,6 +33,7 @@ interface ProcessStep {
   title: string;
   description: string;
   icon: React.ReactNode;
+  image: string;
   color: "primary" | "secondary" | "accent";
   details?: string[];
   duration?: string;
@@ -151,6 +153,8 @@ const defaultSteps: ProcessStep[] = [
     description:
       "We study your business model, competitors, audience behavior, and growth opportunities.",
     icon: Icons.strategy,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Strategy+%26+Business+Analysis.webp",
     color: "primary",
     details: [
       "Market Research",
@@ -167,6 +171,8 @@ const defaultSteps: ProcessStep[] = [
     description:
       "We create wireframes and UI/UX layouts designed for maximum conversion and premium branding.",
     icon: Icons.design,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Design+%26+UX+Planning.webp",
     color: "secondary",
     details: ["Wireframing", "UI Design", "Prototyping", "Brand Integration"],
     duration: "Week 2-3",
@@ -178,6 +184,8 @@ const defaultSteps: ProcessStep[] = [
     description:
       "We build your website with clean code, fast performance, and SEO-ready structure.",
     icon: Icons.development,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Development+%2B+SEO+Foundation.webp",
     color: "primary",
     details: ["Clean Code", "Performance", "SEO Setup", "Responsive Build"],
     duration: "Week 4-6",
@@ -189,6 +197,8 @@ const defaultSteps: ProcessStep[] = [
     description:
       "We deploy custom AI tools and automation systems tailored to your workflow.",
     icon: Icons.ai,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Integration+%26+Growth+System.webp",
     color: "accent",
     details: ["AI Chatbots", "Automation", "Analytics", "Support"],
     duration: "Week 7-8",
@@ -226,14 +236,14 @@ const Background = memo(function Background() {
         }}
       />
       <div
-        className="absolute left-0 top-1/4 h-[600px] w-[600px] -translate-x-1/2"
+        className="absolute left-0 top-1/4 h-150 w-150 -translate-x-1/2"
         style={{
           background: `radial-gradient(circle, ${colors.primary}08 0%, transparent 70%)`,
           filter: "blur(80px)",
         }}
       />
       <div
-        className="absolute bottom-1/4 right-0 h-[500px] w-[500px] translate-x-1/2"
+        className="absolute bottom-1/4 right-0 h-125 w-125 translate-x-1/2"
         style={{
           background: `radial-gradient(circle, ${colors.accent}06 0%, transparent 70%)`,
           filter: "blur(80px)",
@@ -272,102 +282,138 @@ const StepCard = memo(function StepCard({
         boxShadow: isActive ? `0 25px 50px -12px ${color}30` : "none",
       }}
     >
-      {/* Duration Badge */}
-      {step.duration && (
+      {/* Background Image with Blur */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={step.image}
+          alt={step.title}
+          fill
+          className="object-cover transition-transform duration-700"
+          style={{
+            filter: isActive ? "blur(2px)" : "blur(8px)",
+            transform: isActive ? "scale(1.05)" : "scale(1)",
+            opacity: isActive ? 0.9 : 0.15,
+          }}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+        {/* Dark overlay for text readability */}
+
+        {/* Color tint overlay */}
+        <div
+          className="absolute inset-0 transition-opacity duration-300"
+          style={{
+            background: isActive
+              ? `linear-gradient(${side === "left" ? "135deg" : "225deg"}, ${color}30, transparent 70%)`
+              : `linear-gradient(${side === "left" ? "135deg" : "225deg"}, ${color}10, transparent 50%)`,
+            opacity: isActive ? 1 : 0.6,
+          }}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Duration Badge */}
+        {step.duration && (
+          <div
+            className={`mb-4 flex ${side === "left" ? "lg:justify-end" : "lg:justify-start"}`}
+          >
+            <div
+              className="inline-flex items-center gap-1.5 border px-3 py-1 text-xs transition-all duration-300 backdrop-blur-sm"
+              style={{
+                borderColor: isActive ? `${color}60` : "rgba(255,255,255,0.1)",
+                backgroundColor: isActive ? `${color}25` : "rgba(0,0,0,0.4)",
+                color: isActive ? color : "rgba(255,255,255,0.5)",
+              }}
+            >
+              <span className="h-3 w-3">{Icons.clock}</span>
+              {step.duration}
+            </div>
+          </div>
+        )}
+
+        {/* Icon */}
         <div
           className={`mb-4 flex ${side === "left" ? "lg:justify-end" : "lg:justify-start"}`}
         >
           <div
-            className="inline-flex items-center gap-1.5 border px-3 py-1 text-xs transition-all duration-300"
+            className="flex h-14 w-14 items-center justify-center border transition-all duration-300 backdrop-blur-sm"
             style={{
-              borderColor: isActive ? `${color}40` : "rgba(255,255,255,0.08)",
-              backgroundColor: isActive ? `${color}15` : "transparent",
-              color: isActive ? color : "rgba(255,255,255,0.4)",
+              borderColor: isActive ? `${color}60` : "rgba(255,255,255,0.1)",
+              background: isActive
+                ? `linear-gradient(135deg, ${color}35, ${color}15)`
+                : "rgba(0,0,0,0.3)",
             }}
           >
-            <span className="h-3 w-3">{Icons.clock}</span>
-            {step.duration}
-          </div>
-        </div>
-      )}
-
-      {/* Icon */}
-      <div
-        className={`mb-4 flex ${side === "left" ? "lg:justify-end" : "lg:justify-start"}`}
-      >
-        <div
-          className="flex h-14 w-14 items-center justify-center border transition-all duration-300"
-          style={{
-            borderColor: isActive ? `${color}50` : "rgba(255,255,255,0.08)",
-            background: isActive
-              ? `linear-gradient(135deg, ${color}25, ${color}10)`
-              : "rgba(255,255,255,0.02)",
-          }}
-        >
-          <div
-            className="h-7 w-7 transition-all duration-300"
-            style={{
-              color: isActive ? color : "rgba(255,255,255,0.4)",
-              transform: isActive ? "scale(1.15)" : "scale(1)",
-            }}
-          >
-            {step.icon}
-          </div>
-        </div>
-      </div>
-
-      {/* Title */}
-      <h3
-        className="mb-3 text-lg font-bold transition-colors duration-300 md:text-xl"
-        style={{ color: isActive ? "white" : "rgba(255,255,255,0.7)" }}
-      >
-        {step.title}
-      </h3>
-
-      {/* Description */}
-      <p
-        className="mb-6 text-sm leading-relaxed transition-colors duration-300 md:text-base"
-        style={{
-          color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.4)",
-        }}
-      >
-        {step.description}
-      </p>
-
-      {/* Details */}
-      {step.details && (
-        <div
-          className={`flex flex-wrap gap-2 ${side === "left" ? "lg:justify-end" : "lg:justify-start"}`}
-        >
-          {step.details.map((detail, i) => (
-            <span
-              key={i}
-              className="flex items-center gap-1.5 border px-3 py-1.5 text-xs transition-all duration-300"
+            <div
+              className="h-7 w-7 transition-all duration-300"
               style={{
-                borderColor: isActive ? `${color}30` : "rgba(255,255,255,0.06)",
-                backgroundColor: isActive
-                  ? `${color}10`
-                  : "rgba(255,255,255,0.02)",
-                color: isActive
-                  ? "rgba(255,255,255,0.8)"
-                  : "rgba(255,255,255,0.5)",
+                color: isActive ? color : "rgba(255,255,255,0.5)",
+                transform: isActive ? "scale(1.15)" : "scale(1)",
               }}
             >
-              <span
-                className="h-1.5 w-1.5 rounded-full transition-colors duration-300"
-                style={{
-                  backgroundColor: isActive ? color : "rgba(255,255,255,0.3)",
-                }}
-              />
-              {detail}
-            </span>
-          ))}
+              {step.icon}
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* Title */}
+        <h3
+          className="mb-3 text-lg text-left font-bold transition-colors duration-300 md:text-xl"
+          style={{
+            color: isActive ? "#fff" : "rgba(255,255,255,0.85)",
+            textShadow: isActive ? `0 2px 20px ${color}40` : "none",
+          }}
+        >
+          {step.title}
+        </h3>
+
+        {/* Description */}
+        <p
+          className="mb-6 text-sm text-left leading-relaxed transition-colors duration-300 md:text-base"
+          style={{
+            color: isActive
+              ? "rgba(255,255,255,0.9)"
+              : "rgba(255,255,255,0.55)",
+          }}
+        >
+          {step.description}
+        </p>
+
+        {/* Details */}
+        {step.details && (
+          <div
+            className={`flex flex-wrap  gap-2 ${side === "left" ? "lg:justify-start" : "lg:justify-start"}`}
+          >
+            {step.details.map((detail, i) => (
+              <span
+                key={i}
+                className="flex items-center gap-1.5 border px-3 py-1.5 text-xs transition-all duration-300 backdrop-blur-sm"
+                style={{
+                  borderColor: isActive
+                    ? `${color}40`
+                    : "rgba(255,255,255,0.08)",
+                  backgroundColor: isActive ? `${color}20` : "rgba(0,0,0,0.3)",
+                  color: isActive
+                    ? "rgba(255,255,255,0.95)"
+                    : "rgba(255,255,255,0.6)",
+                }}
+              >
+                <span
+                  className="h-1.5 w-1.5  rounded-full transition-colors duration-300"
+                  style={{
+                    backgroundColor: isActive ? color : "rgba(255,255,255,0.4)",
+                  }}
+                />
+                {detail}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Bottom Accent */}
       <div
-        className={`absolute bottom-0 h-1 transition-all duration-500 ${side === "left" ? "right-0" : "left-0"}`}
+        className={`absolute bottom-0 left-0 right-0 h-1 transition-all duration-500 z-10`}
         style={{
           width: isActive ? "100%" : "0%",
           background: `linear-gradient(${side === "left" ? "270deg" : "90deg"}, ${color}, transparent)`,
@@ -381,7 +427,7 @@ const StepCard = memo(function StepCard({
             side === "left" ? "-right-16 -top-16" : "-left-16 -top-16"
           }`}
           style={{
-            background: `radial-gradient(circle, ${color}20, transparent 70%)`,
+            background: `radial-gradient(circle, ${color}25, transparent 70%)`,
           }}
         />
       )}
@@ -990,31 +1036,10 @@ const ProcessSection: React.FC<ProcessSectionProps> = ({
           ref={headerRef}
           className="mx-auto mb-16 max-w-3xl text-center lg:mb-20"
         >
-          {/* Label */}
-          <div className="header-anim mb-6 flex items-center justify-center gap-3">
-            <span
-              className="h-px w-12"
-              style={{
-                background: `linear-gradient(90deg, transparent, ${colors.secondary})`,
-              }}
-            />
-            <span
-              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em]"
-              style={{ color: colors.secondary }}
-            >
-              <span className="h-3 w-3">{Icons.sparkle}</span>
-              {subheadline}
-            </span>
-            <span
-              className="h-px w-12"
-              style={{
-                background: `linear-gradient(90deg, ${colors.secondary}, transparent)`,
-              }}
-            />
-          </div>
+        
 
           {/* Headline */}
-          <h2 className="header-anim mb-6 text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+          <h2 className="header-anim mb-6 text-3xl font-black text-white md:text-4xl lg:text-5xl">
             Our Process: From{" "}
             <span
               className="bg-clip-text text-transparent"

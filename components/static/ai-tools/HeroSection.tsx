@@ -703,7 +703,7 @@ const HeroSection = memo(function HeroSection() {
       ref={sectionRef}
       id="hero"
       aria-labelledby="hero-headline"
-      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center  py-20  bg-[#0B0F19]"
+      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center  py-16  bg-[#0B0F19]"
     >
       {/* ── LAYER 1: Precision grid — graph paper under glass ─────────────── */}
       <div
@@ -711,7 +711,7 @@ const HeroSection = memo(function HeroSection() {
         className="pointer-events-none absolute inset-0 z-0"
       >
         <div
-          className="absolute inset-0 opacity-[0.025]"
+          className="absolute inset-0 opacity-25]"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px),
@@ -729,7 +729,7 @@ const HeroSection = memo(function HeroSection() {
         />
         {/* Bottom structural line */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-px opacity-[0.05]"
+          className="absolute bottom-0 left-0 right-0 h-px opacity-5"
           style={{
             background:
               "linear-gradient(to right, transparent, rgba(255,255,255,0.4) 50%, transparent)",
@@ -753,7 +753,7 @@ const HeroSection = memo(function HeroSection() {
         {/* Cyan — bottom-right, technology, depth */}
         <div
           ref={cyanGlowRef}
-          className="will-change-transform absolute -right-[15%] -bottom-[15%] w-[50vw] h-[50vw] max-w-175 max-h-175 rounded-full opacity-[0.05]"
+          className="will-change-transform absolute -right-[15%] -bottom-[15%] w-[50vw] h-[50vw] max-w-175 max-h-175 rounded-full opacity-5"
           style={{
             background: `radial-gradient(circle, ${ENV.CYAN} 0%, transparent 70%)`,
           }}

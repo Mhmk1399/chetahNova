@@ -1048,7 +1048,7 @@ const AISolutionsGrid = memo(function AISolutionsGrid() {
       ref={sectionRef}
       id="ai-solutions"
       aria-labelledby="solutions-headline"
-      className="relative w-full overflow-hidden bg-[#0B0F19]   py-24   xl:py-20"
+      className="relative w-full overflow-hidden bg-[#0B0F19]   py-24   xl:py-16"
     >
       {/* ── Grid overlay ───────────────────────────────────────────────── */}
       <div
@@ -1056,7 +1056,7 @@ const AISolutionsGrid = memo(function AISolutionsGrid() {
         className="pointer-events-none absolute inset-0 z-0"
       >
         <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute inset-0 opacity-2"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px),
@@ -1073,7 +1073,7 @@ const AISolutionsGrid = memo(function AISolutionsGrid() {
           }}
         />
         <div
-          className="absolute bottom-0 left-0 right-0 h-px opacity-[0.05]"
+          className="absolute bottom-0 left-0 right-0 h-px opacity-5"
           style={{
             background:
               "linear-gradient(to right, transparent, rgba(255,255,255,0.3) 50%, transparent)",

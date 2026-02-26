@@ -8,28 +8,47 @@
 @import "swiper/css/parallax";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0B0F19;
+  --foreground: #ffffff;
+  --dark: #0B0F19;
+  --darkLighter: #0F1420;
+  --primary: #F59E0B;
+  --secondary: #06B6D4;
+  --accent: #6D28D9;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-dark: var(--dark);
+  --color-dark-lighter: var(--darkLighter);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  
+  /* Font variables from Next.js Google Fonts */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-accent: var(--font-accent);
+  
+  /* Default to body font */
+  --font-sans: var(--font-body);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Heading styles using Plus Jakarta */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+/* Accent text using Space Grotesk */
+code, pre, .font-bold, .font-accent {
+  font-family: var(--font-accent), monospace;
 }
 /* Add to your globals.css */
 @keyframes spin-slow {
@@ -47,4 +66,17 @@ body {
 
 .perspective-1000 {
   perspective: 1000px;
+}
+
+/* Custom font utility classes */
+.font-heading {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.font-accent {
+  font-family: var(--font-accent), monospace;
 }

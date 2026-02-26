@@ -93,7 +93,7 @@ const ServicePackagesSection = dynamic(
 );
 const FAQSection = dynamic(() => import("../../components/global/FAQSection"));
 
-export default function About(): JSX.Element {
+export default function Services(): JSX.Element {
   return (
     <main>
       <ServicesHeroSection id="hero" />

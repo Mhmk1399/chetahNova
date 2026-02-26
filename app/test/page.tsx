@@ -7,23 +7,21 @@ import PortfolioSection from "@/components/static/Home/PortfolioSection";
 import ProcessSection from "@/components/static/Home/ProcessSection";
 import Services from "@/components/static/Home/Services";
 import TestimonialsSection from "@/components/global/TestimonialsSection";
-import TrustSection from "@/components/static/Home/Trust";
 import WhyChooseUs from "@/components/global/WhyChooseUs";
 
 const page = () => {
   return (
     <div>
       <HeroSection />
-      {/* <TrustSection /> */}
       <Services />
       <AISolutions />
       <WhyChooseUs />
       <ProcessSection />
       <PortfolioSection />
-      <TestimonialsSection  />
-      <CTASection  />
-      <FAQSection  />
-      <ContactSection  />
+      <TestimonialsSection />
+      <CTASection />
+      <FAQSection />
+      <ContactSection />
     </div>
   );
 };

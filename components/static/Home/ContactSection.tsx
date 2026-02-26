@@ -318,21 +318,21 @@ const Background = memo(function Background() {
       />
 
       <div
-        className="absolute left-0 top-1/4 h-[600px] w-[600px] -translate-x-1/2"
+        className="absolute left-0 top-1/4 h-150 w-150 -translate-x-1/2"
         style={{
           background: `radial-gradient(circle, ${colors.primary}08 0%, transparent 70%)`,
           filter: "blur(80px)",
         }}
       />
       <div
-        className="absolute bottom-1/4 right-0 h-[500px] w-[500px] translate-x-1/2"
+        className="absolute bottom-1/4 right-0 h-125 w-125 translate-x-1/2"
         style={{
           background: `radial-gradient(circle, ${colors.secondary}06 0%, transparent 70%)`,
           filter: "blur(80px)",
         }}
       />
       <div
-        className="absolute bottom-0 left-1/2 h-[400px] w-[800px] -translate-x-1/2 translate-y-1/2"
+        className="absolute bottom-0 left-1/2 h-100 w-[800px] -translate-x-1/2 translate-y-1/2"
         style={{
           background: `radial-gradient(ellipse, ${colors.accent}05 0%, transparent 70%)`,
           filter: "blur(60px)",
@@ -719,7 +719,7 @@ const ContactInfoCard = memo(function ContactInfoCard({
         }}
       >
         {/* Title */}
-        <h3 className="mb-6 text-lg font-bold text-white md:text-xl">
+        <h3 className="mb-6 text-lg font-bold    text-white md:text-xl">
           Contact Information
         </h3>
 
@@ -1239,31 +1239,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({
       <div className="relative mx-auto max-w-[99%] md:max-w-[95%] px-4">
         {/* Header */}
         <div ref={headerRef} className="mb-12 text-center lg:mb-16">
-          {/* Label */}
-          <div className="header-anim mb-6 flex items-center justify-center gap-3">
-            <span
-              className="h-px w-12"
-              style={{
-                background: `linear-gradient(90deg, transparent, ${colors.primary})`,
-              }}
-            />
-            <span
-              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em]"
-              style={{ color: colors.primary }}
-            >
-              <span className="h-3 w-3">{Icons.sparkle}</span>
-              Get In Touch
-            </span>
-            <span
-              className="h-px w-12"
-              style={{
-                background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
-              }}
-            />
-          </div>
-
           {/* Headline */}
-          <h2 className="header-anim mb-6 text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+          <h2 className="header-anim mb-6 text-3xl font-black text-white md:text-4xl lg:text-5xl">
             Let's Talk About{" "}
             <span
               className="bg-clip-text text-transparent"

@@ -546,7 +546,7 @@ const CTASection: React.FC<CTASectionProps> = ({
         </div>
 
         {/* Headline */}
-        <h2 className="cta-anim mb-6 text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl xl:text-6xl">
+        <h2 className="cta-anim mb-6 text-3xl font-black leading-tight text-white md:text-4xl lg:text-5xl xl:text-6xl">
           {headline}{" "}
           <span
             className="relative bg-clip-text text-transparent"

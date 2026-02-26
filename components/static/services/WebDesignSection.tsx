@@ -790,7 +790,7 @@ function WebDesignSection() {
       ref={sectionRef}
       id="web-design"
       aria-labelledby="web-design-title"
-      className="relative w-full overflow-hidden py-20 md:py-28 lg:py-36"
+      className="relative w-full overflow-hidden py-16 md:py-28 lg:py-36"
       style={{ backgroundColor: TOKENS.DARK_BG }}
     >
       {/* ── Background Grid ──────────────────────────────── */}

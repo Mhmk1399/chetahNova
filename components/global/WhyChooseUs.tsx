@@ -1,9 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState, memo, useCallback } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  memo,
+  useCallback,
+  useMemo,
+} from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import Image from "next/image";
 
 // Register GSAP Plugin
 if (typeof window !== "undefined") {
@@ -11,15 +19,23 @@ if (typeof window !== "undefined") {
 }
 
 // ════════════════════════════════════════════════════════════════════
-// BRAND COLORS
+// BRAND COLORS - LUXURY PALETTE
 // ════════════════════════════════════════════════════════════════════
 
 const colors = {
   primary: "#F59E0B",
+  primaryLight: "#FBBF24",
+  primaryDark: "#D97706",
   secondary: "#06B6D4",
-  accent: "#6D28D9",
-  dark: "#0B0F19",
-  darkLighter: "#0F1420",
+  secondaryLight: "#22D3EE",
+  accent: "#8B5CF6",
+  accentLight: "#A78BFA",
+  dark: "#030712",
+  darkLighter: "#0F172A",
+  darkCard: "#0A0F1C",
+  gold: "#FFD700",
+  platinum: "#E5E4E2",
+  rose: "#F43F5E",
 } as const;
 
 // ════════════════════════════════════════════════════════════════════
@@ -32,11 +48,13 @@ interface Feature {
   title: string;
   description: string;
   icon: React.ReactNode;
+  image: string;
   color: "primary" | "secondary" | "accent";
   metrics?: {
     value: string;
     label: string;
   };
+  highlights?: string[];
 }
 
 interface WhyChooseUsProps {
@@ -47,11 +65,10 @@ interface WhyChooseUsProps {
 }
 
 // ════════════════════════════════════════════════════════════════════
-// ICONS
+// ICONS - LUXURY STYLE
 // ════════════════════════════════════════════════════════════════════
 
 const Icons = {
-  // Performance - Rocket/Speed
   performance: (
     <svg
       viewBox="0 0 24 24"
@@ -67,7 +84,6 @@ const Icons = {
       <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
     </svg>
   ),
-  // Conversion - Target/Goal
   conversion: (
     <svg
       viewBox="0 0 24 24"
@@ -86,7 +102,6 @@ const Icons = {
       <path d="M18 12h4" />
     </svg>
   ),
-  // SEO - Search/Chart
   seo: (
     <svg
       viewBox="0 0 24 24"
@@ -101,7 +116,6 @@ const Icons = {
       <circle cx="20" cy="4" r="2" />
     </svg>
   ),
-  // AI/Automation - Brain/Circuit
   ai: (
     <svg
       viewBox="0 0 24 24"
@@ -117,25 +131,31 @@ const Icons = {
       <circle cx="12" cy="8" r="1" fill="currentColor" />
     </svg>
   ),
-  // Arrow
   arrow: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M5 12h14M12 5l7 7-7 7" />
     </svg>
   ),
-  // Check
-  check: (
+  arrowUpRight: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M7 17L17 7M17 7H7M17 7V17" />
+    </svg>
+  ),
+  check: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+    >
       <polyline points="20 6 9 17 4 12" />
     </svg>
   ),
-  // Sparkle
   sparkle: (
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
     </svg>
   ),
-  // Zap
   zap: (
     <svg
       viewBox="0 0 24 24"
@@ -144,6 +164,34 @@ const Icons = {
       strokeWidth="1.5"
     >
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
+  ),
+  crown: (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M2.5 19h19l-2-14-5.5 6L12 3l-2 8-5.5-6-2 14z" />
+    </svg>
+  ),
+  diamond: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path d="M6 3h12l4 6-10 13L2 9z" />
+      <path d="M2 9h20" />
+      <path d="M10 9l2-6 2 6" />
+      <path d="M6 9l6 13 6-13" />
+    </svg>
+  ),
+  star: (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  ),
+  play: (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <polygon points="5 3 19 12 5 21 5 3" />
     </svg>
   ),
 };
@@ -160,11 +208,14 @@ const defaultFeatures: Feature[] = [
     description:
       "We optimize speed, Core Web Vitals, and mobile performance to ensure your website loads fast and ranks higher.",
     icon: Icons.performance,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Performance-Focused+Development+.webp",
     color: "primary",
     metrics: {
       value: "<2s",
       label: "Load Time",
     },
+    highlights: ["Core Web Vitals", "CDN Optimized", "Image Compression"],
   },
   {
     id: "conversion",
@@ -173,172 +224,316 @@ const defaultFeatures: Feature[] = [
     description:
       "Every section is designed with psychology, trust-building, and lead generation principles.",
     icon: Icons.conversion,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Conversion-Driven+Design.webp",
     color: "secondary",
     metrics: {
       value: "3x",
       label: "More Leads",
     },
-  },
-  {
-    id: "seo",
-    number: "03",
-    title: "SEO From Day One",
-    description:
-      "We structure the website properly from the beginning to make Google indexing and ranking easier.",
-    icon: Icons.seo,
-    color: "primary",
-    metrics: {
-      value: "#1",
-      label: "Rankings",
-    },
+    highlights: ["A/B Tested", "Psychology-Based", "Trust Signals"],
   },
   {
     id: "ai",
-    number: "04",
+    number: "03",
     title: "AI Automation That Saves Time",
     description:
       "We replace repetitive tasks with smart systems so your business scales faster with less manual work.",
     icon: Icons.ai,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Automation+That+Saves.webp",
     color: "accent",
     metrics: {
       value: "10h+",
       label: "Saved Weekly",
     },
+    highlights: ["Smart Workflows", "Auto-responses", "Task Automation"],
+  },
+  {
+    id: "seo",
+    number: "04",
+    title: "SEO From Day One",
+    description:
+      "We structure the website properly from the beginning to make Google indexing and ranking easier.",
+    icon: Icons.seo,
+    image:
+      "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/SEO+From+Day+One.webp",
+    color: "primary",
+    metrics: {
+      value: "#1",
+      label: "Rankings",
+    },
+    highlights: ["Schema Markup", "Meta Optimized", "Fast Indexing"],
   },
 ];
 
 // ════════════════════════════════════════════════════════════════════
-// UTILITY
+// UTILITIES
 // ════════════════════════════════════════════════════════════════════
 
 const getColor = (colorKey: "primary" | "secondary" | "accent") =>
   colors[colorKey];
 
+const getGradient = (colorKey: "primary" | "secondary" | "accent") => {
+  const gradients = {
+    primary: `linear-gradient(135deg, ${colors.primary}, ${colors.primaryLight})`,
+    secondary: `linear-gradient(135deg, ${colors.secondary}, ${colors.secondaryLight})`,
+    accent: `linear-gradient(135deg, ${colors.accent}, ${colors.accentLight})`,
+  };
+  return gradients[colorKey];
+};
+
 // ════════════════════════════════════════════════════════════════════
-// BACKGROUND
+// LUXURY BACKGROUND
 // ════════════════════════════════════════════════════════════════════
 
-const Background = memo(function Background() {
+const LuxuryBackground = memo(function LuxuryBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationId: number;
+    let particles: Array<{
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      opacity: number;
+      color: string;
+    }> = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight * 2;
+    };
+
+    const createParticles = () => {
+      particles = [];
+      const particleCount = 60;
+      const particleColors = [colors.primary, colors.secondary, colors.accent];
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 0.5,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
+          opacity: Math.random() * 0.5 + 0.1,
+          color:
+            particleColors[Math.floor(Math.random() * particleColors.length)],
+        });
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((particle) => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle =
+          particle.color +
+          Math.floor(particle.opacity * 255)
+            .toString(16)
+            .padStart(2, "0");
+        ctx.fill();
+
+        // Glow effect
+        const gradient = ctx.createRadialGradient(
+          particle.x,
+          particle.y,
+          0,
+          particle.x,
+          particle.y,
+          particle.size * 4,
+        );
+        gradient.addColorStop(0, particle.color + "30");
+        gradient.addColorStop(1, "transparent");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(
+          particle.x - particle.size * 4,
+          particle.y - particle.size * 4,
+          particle.size * 8,
+          particle.size * 8,
+        );
+      });
+
+      // Connect nearby particles
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach((p2) => {
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.03 * (1 - distance / 150)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    resize();
+    createParticles();
+    animate();
+
+    window.addEventListener("resize", () => {
+      resize();
+      createParticles();
+    });
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* Base */}
+      {/* Base Gradient */}
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: colors.dark }}
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 50% at 50% 0%, ${colors.accent}15 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 20% 30%, ${colors.primary}10 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 80% 70%, ${colors.secondary}08 0%, transparent 50%),
+            linear-gradient(180deg, ${colors.dark} 0%, ${colors.darkLighter} 50%, ${colors.dark} 100%)
+          `,
+        }}
       />
 
-      {/* Grid */}
+      {/* Particle Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 opacity-70"
+        style={{ mixBlendMode: "screen" }}
+      />
+
+      {/* Premium Grid */}
       <div
-        className="absolute inset-0 opacity-2"
+        className="absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(90deg, white 1px, transparent 1px),
-            linear-gradient(white 1px, transparent 1px)
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px)
           `,
-          backgroundSize: "60px 60px",
+          backgroundSize: "80px 80px",
+          maskImage:
+            "radial-gradient(ellipse 70% 50% at 50% 50%, black, transparent)",
         }}
       />
 
-      {/* Gradient Orbs */}
+      {/* Aurora Effect */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -top-1/2 left-1/4 h-[800px] w-150 animate-aurora-1 opacity-30"
+          style={{
+            background: `linear-gradient(180deg, ${colors.primary}40, transparent)`,
+            filter: "blur(100px)",
+            transform: "rotate(-15deg)",
+          }}
+        />
+        <div
+          className="absolute -top-1/3 right-1/4 h-150 w-[500px] animate-aurora-2 opacity-25"
+          style={{
+            background: `linear-gradient(180deg, ${colors.secondary}30, transparent)`,
+            filter: "blur(100px)",
+            transform: "rotate(15deg)",
+          }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 h-[500px] w-[800px] animate-aurora-3 opacity-20"
+          style={{
+            background: `linear-gradient(180deg, ${colors.accent}25, transparent)`,
+            filter: "blur(120px)",
+          }}
+        />
+      </div>
+
+      {/* Luxury Noise Texture */}
       <div
-        className="absolute -left-40 top-1/3 h-150 w-150"
+        className="absolute inset-0 opacity-[0.015]"
         style={{
-          background: `radial-gradient(circle, ${colors.primary}08 0%, transparent 70%)`,
-          filter: "blur(80px)",
-        }}
-      />
-      <div
-        className="absolute -right-40 top-1/2 h-125 w-125"
-        style={{
-          background: `radial-gradient(circle, ${colors.secondary}06 0%, transparent 70%)`,
-          filter: "blur(80px)",
-        }}
-      />
-      <div
-        className="absolute bottom-0 left-1/2 h-100 w-200 -translate-x-1/2"
-        style={{
-          background: `radial-gradient(ellipse, ${colors.accent}05 0%, transparent 70%)`,
-          filter: "blur(60px)",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
         }}
       />
 
-      {/* Noise */}
+      {/* Vignette */}
       <div
-        className="absolute inset-0 opacity-[0.012]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-      />
-    </div>
-  );
-});
-
-// ════════════════════════════════════════════════════════════════════
-// ANIMATED LINES
-// ════════════════════════════════════════════════════════════════════
-
-const AnimatedLines = memo(function AnimatedLines() {
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* Vertical Lines */}
-      <div
-        className="absolute left-1/4 top-0 h-full w-px opacity-[0.03]"
+        className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, transparent, white, transparent)",
-        }}
-      />
-      <div
-        className="absolute left-1/2 top-0 h-full w-px opacity-[0.03]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent, white, transparent)",
-        }}
-      />
-      <div
-        className="absolute left-3/4 top-0 h-full w-px opacity-[0.03]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent, white, transparent)",
-        }}
-      />
-
-      {/* Animated Dot */}
-      <div
-        className="absolute left-1/4 h-2 w-2 rounded-full"
-        style={{
-          background: colors.primary,
-          boxShadow: `0 0 20px ${colors.primary}`,
-          animation: "moveDot 8s ease-in-out infinite",
-        }}
-      />
-      <div
-        className="absolute left-3/4 h-2 w-2 rounded-full"
-        style={{
-          background: colors.secondary,
-          boxShadow: `0 0 20px ${colors.secondary}`,
-          animation: "moveDot 8s ease-in-out infinite reverse",
-          animationDelay: "2s",
+            "radial-gradient(ellipse 70% 50% at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%)",
         }}
       />
 
       <style jsx>{`
-        @keyframes moveDot {
+        @keyframes aurora-1 {
           0%,
           100% {
-            top: 10%;
-            opacity: 0;
+            transform: rotate(-15deg) translateY(0) translateX(0);
           }
-          10% {
-            opacity: 1;
+          25% {
+            transform: rotate(-10deg) translateY(-30px) translateX(30px);
           }
-          90% {
-            opacity: 1;
+          50% {
+            transform: rotate(-20deg) translateY(-10px) translateX(-20px);
           }
+          75% {
+            transform: rotate(-12deg) translateY(20px) translateX(10px);
+          }
+        }
+        @keyframes aurora-2 {
+          0%,
           100% {
-            top: 90%;
-            opacity: 0;
+            transform: rotate(15deg) translateY(0) translateX(0);
           }
+          33% {
+            transform: rotate(20deg) translateY(40px) translateX(-30px);
+          }
+          66% {
+            transform: rotate(10deg) translateY(-20px) translateX(20px);
+          }
+        }
+        @keyframes aurora-3 {
+          0%,
+          100% {
+            transform: translateX(-50%) scale(1);
+            opacity: 0.2;
+          }
+          50% {
+            transform: translateX(-50%) scale(1.1);
+            opacity: 0.15;
+          }
+        }
+        .animate-aurora-1 {
+          animation: aurora-1 20s ease-in-out infinite;
+        }
+        .animate-aurora-2 {
+          animation: aurora-2 25s ease-in-out infinite;
+        }
+        .animate-aurora-3 {
+          animation: aurora-3 15s ease-in-out infinite;
         }
       `}</style>
     </div>
@@ -346,56 +541,162 @@ const AnimatedLines = memo(function AnimatedLines() {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// COMPARISON INDICATOR
+// FLOATING ELEMENTS
 // ════════════════════════════════════════════════════════════════════
 
-const ComparisonIndicator = memo(function ComparisonIndicator({
-  isVisible,
-}: {
-  isVisible: boolean;
-}) {
+const FloatingElements = memo(function FloatingElements() {
   return (
-    <div
-      className="mb-12 flex justify-center"
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(20px)",
-        transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
-      }}
-    >
-      <div className="flex items-center gap-6 rounded-full border border-white/6 bg-white/2 px-6 py-3 backdrop-blur-sm">
-        {/* Others */}
-        <div className="flex items-center gap-2 text-white/40">
-          <div className="h-3 w-3 rounded-full border border-white/20" />
-          <span className="text-sm">Others</span>
-        </div>
-
-        {/* VS */}
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 text-xs font-bold text-white/30">
-          VS
-        </div>
-
-        {/* Us */}
-        <div className="flex items-center gap-2">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* Floating Geometric Shapes */}
+      {[...Array(8)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute animate-float"
+          style={{
+            left: `${10 + i * 12}%`,
+            top: `${20 + (i % 3) * 25}%`,
+            animationDelay: `${i * 0.5}s`,
+            animationDuration: `${6 + i}s`,
+          }}
+        >
           <div
-            className="h-3 w-3 rounded-full"
+            className="h-1 w-1 "
             style={{
-              backgroundColor: colors.primary,
-              boxShadow: `0 0 10px ${colors.primary}50`,
+              backgroundColor: [
+                colors.primary,
+                colors.secondary,
+                colors.accent,
+              ][i % 3],
+              boxShadow: `0 0 20px ${[colors.primary, colors.secondary, colors.accent][i % 3]}60`,
+              opacity: 0.6,
             }}
           />
-          <span className="text-sm font-medium text-white">Our Approach</span>
         </div>
-      </div>
+      ))}
+
+      {/* Decorative Lines */}
+      <svg
+        className="absolute right-10 top-20 h-40 w-40 opacity-10"
+        viewBox="0 0 100 100"
+      >
+        <defs>
+          <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={colors.primary} />
+            <stop offset="100%" stopColor={colors.secondary} />
+          </linearGradient>
+        </defs>
+        <path
+          d="M10 90 Q 50 10 90 50"
+          fill="none"
+          stroke="url(#lineGrad)"
+          strokeWidth="0.5"
+          strokeDasharray="4,4"
+        />
+      </svg>
+
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          25% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+          50% {
+            transform: translateY(-10px) rotate(-5deg);
+          }
+          75% {
+            transform: translateY(-25px) rotate(3deg);
+          }
+        }
+        .animate-float {
+          animation: float 8s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 });
 
+ 
 // ════════════════════════════════════════════════════════════════════
-// FEATURE CARD
+// ANIMATED HEADLINE
 // ════════════════════════════════════════════════════════════════════
 
-const FeatureCard = memo(function FeatureCard({
+const AnimatedHeadline = memo(function AnimatedHeadline({
+  headline,
+  isVisible,
+}: {
+  headline: string;
+  isVisible: boolean;
+}) {
+  const words = headline.split(" ");
+  const highlightWords = ["Choose", "Businesses"];
+
+  return (
+    <h2 className="mb-6 text-center text-4xl font-black tracking-tight text-white md:text-5xl lg:text-6xl  ">
+      {words.map((word, i) => {
+        const isHighlight = highlightWords.includes(word);
+        return (
+          <span
+            key={i}
+            className="inline-block"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible
+                ? "translateY(0) rotateX(0)"
+                : "translateY(40px) rotateX(-20deg)",
+              transition: `all 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${0.1 + i * 0.08}s`,
+            }}
+          >
+            {isHighlight ? (
+              <span
+                className="relative bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
+                  backgroundSize: "200% 200%",
+                  animation: "gradientShift 5s ease-in-out infinite",
+                }}
+              >
+                {word}
+                <span
+                  className="absolute -bottom-2 left-0 h-1 w-full "
+                  style={{
+                    background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                    opacity: isVisible ? 1 : 0,
+                    transform: isVisible ? "scaleX(1)" : "scaleX(0)",
+                    transformOrigin: "left",
+                    transition: `all 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${0.5 + i * 0.08}s`,
+                  }}
+                />
+              </span>
+            ) : (
+              word
+            )}{" "}
+          </span>
+        );
+      })}
+
+      <style jsx>{`
+        @keyframes gradientShift {
+          0%,
+          100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+      `}</style>
+    </h2>
+  );
+});
+
+// ════════════════════════════════════════════════════════════════════
+// LUXURY FEATURE CARD
+// ════════════════════════════════════════════════════════════════════
+
+const LuxuryFeatureCard = memo(function LuxuryFeatureCard({
   feature,
   index,
   isVisible,
@@ -409,21 +710,29 @@ const FeatureCard = memo(function FeatureCard({
   onHover: (id: string | null) => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const color = getColor(feature.color);
+  const gradient = getGradient(feature.color);
 
   useEffect(() => {
     if (!cardRef.current || !isVisible) return;
 
     gsap.fromTo(
       cardRef.current,
-      { opacity: 0, y: 50, scale: 0.95 },
+      {
+        opacity: 0,
+        y: 80,
+        rotateX: -10,
+        scale: 0.9,
+      },
       {
         opacity: 1,
         y: 0,
+        rotateX: 0,
         scale: 1,
-        duration: 0.8,
-        delay: index * 0.15,
-        ease: "power3.out",
+        duration: 1,
+        delay: index * 0.2,
+        ease: "power4.out",
       },
     );
   }, [isVisible, index]);
@@ -431,261 +740,385 @@ const FeatureCard = memo(function FeatureCard({
   return (
     <div
       ref={cardRef}
-      className="feature-card group relative"
-      style={{ opacity: 0 }}
+      className="group relative"
       onMouseEnter={() => onHover(feature.id)}
       onMouseLeave={() => onHover(null)}
     >
-      {/* Card Container */}
+      {/* Card Glow Effect */}
+
+      {/* Main Card */}
       <div
-        className="relative h-full overflow-hidden border p-6 transition-all duration-500 md:p-8"
+        className="relative overflow-hidden  border transition-all duration-700"
         style={{
-          borderColor: isActive ? `${color}40` : "rgba(255,255,255,0.06)",
+          borderColor: isActive ? `${color}50` : "rgba(255,255,255,0.06)",
           background: isActive
-            ? `linear-gradient(135deg, ${color}08, transparent 60%)`
+            ? `linear-gradient(135deg, ${color}10, rgba(0,0,0,0.4))`
             : "rgba(255,255,255,0.02)",
-          transform: isActive ? "translateY(-8px)" : "translateY(0)",
-          boxShadow: isActive ? `0 25px 50px -12px ${color}20` : "none",
+          transform: isActive
+            ? "translateY(-12px) scale(1.02)"
+            : "translateY(0) scale(1)",
+          boxShadow: isActive
+            ? `0 50px 100px -20px ${color}30, 0 30px 60px -30px ${color}20, inset 0 1px 0 rgba(255,255,255,0.1)`
+            : "0 4px 20px rgba(0,0,0,0.3)",
         }}
       >
-        {/* Top Row */}
-        <div className="mb-6 flex items-start justify-between">
-          {/* Number */}
-          <span
-            className="font-mono text-xs font-semibold uppercase tracking-widest transition-colors duration-300"
-            style={{ color: isActive ? color : "rgba(255,255,255,0.2)" }}
-          >
-            {feature.number}
-          </span>
+        {/* Premium Glass Overlay */}
+        <div
+          className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(circle at 30% 30%, ${color}08, transparent 60%)`,
+          }}
+        />
 
-          {/* Metric Badge */}
-          {feature.metrics && (
-            <div
-              className="flex items-center gap-2 border px-3 py-1.5 transition-all duration-300"
-              style={{
-                borderColor: isActive ? `${color}30` : "rgba(255,255,255,0.08)",
-                background: isActive ? `${color}10` : "transparent",
-              }}
-            >
+        {/* Content Container */}
+        <div className="relative p-6 md:p-8">
+          {/* Top Row - Number & Badge */}
+          <div className="mb-6 flex items-center justify-between">
+            {/* Number with fancy styling */}
+            <div className="relative">
               <span
-                className="text-lg font-bold transition-colors duration-300"
-                style={{ color: isActive ? color : "rgba(255,255,255,0.6)" }}
+                className="font-mono text-5xl font-black opacity-10 transition-all duration-300 group-hover:opacity-20"
+                style={{ color }}
               >
-                {feature.metrics.value}
-              </span>
-              <span className="text-[10px] uppercase tracking-wider text-white/40">
-                {feature.metrics.label}
+                {feature.number}
               </span>
             </div>
-          )}
-        </div>
 
-        {/* Icon */}
-        <div
-          className="mb-6 flex h-16 w-16 items-center justify-center border transition-all duration-500 md:h-20 md:w-20"
-          style={{
-            borderColor: isActive ? `${color}40` : "rgba(255,255,255,0.08)",
-            background: isActive
-              ? `linear-gradient(135deg, ${color}20, ${color}05)`
-              : "rgba(255,255,255,0.02)",
-          }}
-        >
-          <div
-            className="h-8 w-8 transition-all duration-300 md:h-10 md:w-10"
-            style={{
-              color: isActive ? color : "rgba(255,255,255,0.5)",
-              transform: isActive ? "scale(1.1)" : "scale(1)",
-            }}
-          >
-            {feature.icon}
+            {/* Metric Badge */}
+            {feature.metrics && (
+              <div
+                className="relative overflow-hidden border px-4 py-2 backdrop-blur-md transition-all duration-500"
+                style={{
+                  borderColor: isActive
+                    ? `${color}40`
+                    : "rgba(255,255,255,0.08)",
+                  background: isActive
+                    ? `${color}15`
+                    : "rgba(255,255,255,0.03)",
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="text-xl font-black transition-all duration-300"
+                    style={{
+                      color: isActive ? color : "rgba(255,255,255,0.7)",
+                    }}
+                  >
+                    {feature.metrics.value}
+                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase tracking-wider text-white/40">
+                      {feature.metrics.label}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Pulse Ring */}
+          {/* Image Container */}
           <div
-            className="absolute inset-0 transition-opacity duration-300"
+            ref={imageRef}
+            className="relative mb-6 overflow-hidden "
             style={{
-              border: `1px solid ${color}`,
-              opacity: isActive ? 0.2 : 0,
-              animation: isActive ? "pulse-ring 2s ease-out infinite" : "none",
-            }}
-          />
-        </div>
-
-        {/* Title */}
-        <h3 className="mb-3 text-lg font-bold text-white transition-colors duration-300 md:text-xl">
-          {feature.title}
-        </h3>
-
-        {/* Description */}
-        <p className="mb-6 text-sm leading-relaxed text-white/50 transition-colors duration-300 group-hover:text-white/70 md:text-base">
-          {feature.description}
-        </p>
-
-        {/* Learn More Link */}
-        <div
-          className="flex items-center gap-2 text-sm font-medium transition-all duration-300"
-          style={{
-            color: isActive ? color : "rgba(255,255,255,0.4)",
-          }}
-        >
-          <span>Learn more</span>
-          <span
-            className="h-4 w-4 transition-transform duration-300"
-            style={{
-              transform: isActive ? "translateX(4px)" : "translateX(0)",
+              height: "220px",
+              boxShadow: isActive
+                ? `0 20px 60px -15px ${color}40, inset 0 0 0 1px ${color}30`
+                : "0 10px 40px -10px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05)",
             }}
           >
-            {Icons.arrow}
-          </span>
+            <Image
+              src={feature.image}
+              alt={feature.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+
+            {/* Image Overlays */}
+            <div
+              className="absolute inset-0 transition-opacity duration-500"
+              style={{
+                background: `linear-gradient(135deg, ${color}30 0%, transparent 50%, rgba(0,0,0,0.7) 100%)`,
+                opacity: isActive ? 0.8 : 0.5,
+              }}
+            />
+
+            {/* Floating Icon */}
+            <div
+              className="absolute -right-2 -top-2 flex h-16 w-16 items-center justify-center  border-2 shadow-2xl backdrop-blur-xl transition-all duration-500"
+              style={{
+                borderColor: isActive ? color : "rgba(255,255,255,0.1)",
+                background: isActive ? gradient : "rgba(15, 20, 32, 0.95)",
+                transform: isActive
+                  ? "rotate(10deg) scale(1.15)"
+                  : "rotate(0deg) scale(1)",
+                boxShadow: isActive
+                  ? `0 20px 40px -10px ${color}60`
+                  : "0 10px 30px -5px rgba(0,0,0,0.5)",
+              }}
+            >
+              <div
+                className="h-8 w-8 transition-all duration-300"
+                style={{
+                  color: isActive ? "#000" : color,
+                  filter: isActive
+                    ? "none"
+                    : `drop-shadow(0 0 10px ${color}60)`,
+                }}
+              >
+                {feature.icon}
+              </div>
+            </div>
+          </div>
+
+          {/* Title */}
+          <h3
+            className="mb-3 text-xl font-bold text-white transition-all duration-300 md:text-2xl"
+            style={{
+              textShadow: isActive ? `0 0 30px ${color}30` : "none",
+            }}
+          >
+            {feature.title}
+          </h3>
+
+          {/* Description */}
+          <p className="mb-5 text-sm leading-relaxed text-white/50 transition-colors duration-300 group-hover:text-white/70 md:text-base">
+            {feature.description}
+          </p>
+
+          {/* Highlights */}
+          {feature.highlights && (
+            <div className="mb-5 flex flex-wrap gap-2">
+              {feature.highlights.map((highlight, i) => (
+                <span
+                  key={i}
+                  className=" border px-3 py-1 text-xs font-medium transition-all duration-300"
+                  style={{
+                    borderColor: isActive
+                      ? `${color}40`
+                      : "rgba(255,255,255,0.08)",
+                    background: isActive ? `${color}15` : "transparent",
+                    color: isActive ? color : "rgba(255,255,255,0.5)",
+                  }}
+                >
+                  {highlight}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* CTA Link */}
+          <div className="flex items-center justify-between">
+            <button
+              className="group/btn flex items-center gap-2 text-sm font-semibold transition-all duration-300"
+              style={{ color: isActive ? color : "rgba(255,255,255,0.4)" }}
+            >
+              <span>Explore Feature</span>
+              <span
+                className="flex h-6 w-6 items-center justify-center  border transition-all duration-300"
+                style={{
+                  borderColor: isActive
+                    ? `${color}50`
+                    : "rgba(255,255,255,0.1)",
+                  background: isActive ? `${color}20` : "transparent",
+                  transform: isActive ? "translateX(4px)" : "translateX(0)",
+                }}
+              >
+                <span className="h-3 w-3">{Icons.arrowUpRight}</span>
+              </span>
+            </button>
+          </div>
         </div>
 
-        {/* Bottom Accent Line */}
+        {/* Corner Decorations */}
+        <div className="absolute right-0 top-0 h-20 w-20 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+          <svg viewBox="0 0 80 80" fill="none" className="h-full w-full">
+            <path
+              d="M80 0 L80 80 L0 80"
+              stroke={color}
+              strokeWidth="1"
+              strokeOpacity="0.3"
+              fill="none"
+            />
+          </svg>
+        </div>
+
+        {/* Bottom Accent */}
         <div
-          className="absolute bottom-0 left-0 h-1 transition-all duration-500"
+          className="absolute bottom-0 left-0 h-1 transition-all duration-700"
           style={{
             width: isActive ? "100%" : "0%",
-            background: `linear-gradient(90deg, ${color}, transparent)`,
+            background: gradient,
           }}
         />
-
-        {/* Corner Glow */}
-        <div
-          className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 transition-opacity duration-500"
-          style={{
-            background: `radial-gradient(circle, ${color}15, transparent 70%)`,
-            opacity: isActive ? 1 : 0,
-          }}
-        />
-
-        {/* Decorative Corner */}
-        <div
-          className="absolute right-4 top-4 h-8 w-8 transition-opacity duration-300"
-          style={{
-            opacity: isActive ? 1 : 0,
-          }}
-        >
-          <div
-            className="absolute right-0 top-0 h-full w-px"
-            style={{
-              background: `linear-gradient(180deg, ${color}40, transparent)`,
-            }}
-          />
-          <div
-            className="absolute right-0 top-0 h-px w-full"
-            style={{
-              background: `linear-gradient(270deg, ${color}40, transparent)`,
-            }}
-          />
-        </div>
       </div>
-
-      <style jsx>{`
-        @keyframes pulse-ring {
-          0% {
-            transform: scale(1);
-            opacity: 0.2;
-          }
-          100% {
-            transform: scale(1.4);
-            opacity: 0;
-          }
-        }
-      `}</style>
     </div>
   );
 });
 
 // ════════════════════════════════════════════════════════════════════
-// FEATURE HIGHLIGHT BAR
+// COMPARISON SECTION
 // ════════════════════════════════════════════════════════════════════
 
-const FeatureHighlightBar = memo(function FeatureHighlightBar({
+const ComparisonSection = memo(function ComparisonSection({
+  isVisible,
+}: {
+  isVisible: boolean;
+}) {
+  const comparisons = [
+    { others: "Template-based designs", us: "Custom-crafted solutions" },
+    { others: "Slow loading times", us: "Lightning-fast performance" },
+    { others: "Generic content", us: "Conversion-optimized copy" },
+    { others: "Basic SEO", us: "Advanced SEO from day one" },
+  ];
+
+  return (
+    <div
+      className="mx-auto mb-16 max-w-4xl"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(30px)",
+        transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s",
+      }}
+    >
+      <div
+        className="relative overflow-hidden  border p-8 backdrop-blur-xl"
+        style={{
+          borderColor: "rgba(255,255,255,0.06)",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
+        }}
+      >
+        {/* Header */}
+        <div className="mb-8 flex items-center justify-center gap-4">
+          <div className="flex items-center gap-2 text-white/40">
+            <div className="h-3 w-3  border border-white/30" />
+            <span className="text-sm font-medium">Others</span>
+          </div>
+          <div
+            className="flex h-8 w-8 items-center justify-center  text-xs font-bold"
+            style={{
+              background: `linear-gradient(135deg, ${colors.primary}30, ${colors.secondary}30)`,
+              color: "rgba(255,255,255,0.6)",
+            }}
+          >
+            VS
+          </div>
+          <div className="flex items-center gap-2">
+            <div
+              className="h-3 w-3 "
+              style={{
+                background: colors.primary,
+                boxShadow: `0 0 15px ${colors.primary}60`,
+              }}
+            />
+            <span
+              className="bg-clip-text text-sm font-semibold text-transparent"
+              style={{
+                backgroundImage: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+              }}
+            >
+              Our Approach
+            </span>
+          </div>
+        </div>
+
+        {/* Comparison Grid */}
+        <div className="space-y-4">
+          {comparisons.map((item, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? "translateX(0)" : "translateX(-20px)",
+                transition: `all 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${0.7 + index * 0.1}s`,
+              }}
+            >
+              {/* Others */}
+              <div className="flex items-center justify-end gap-2 text-right">
+                <span className="text-sm text-white/40 line-through decoration-rose-500/50">
+                  {item.others}
+                </span>
+                <span className="h-4 w-4 text-rose-500/60">✕</span>
+              </div>
+
+              {/* Divider */}
+              <div
+                className="h-8 w-px"
+                style={{
+                  background: `linear-gradient(180deg, transparent, ${colors.primary}50, transparent)`,
+                }}
+              />
+
+              {/* Us */}
+              <div className="flex items-center gap-2">
+                <span className="h-4 w-4" style={{ color: colors.primary }}>
+                  {Icons.check}
+                </span>
+                <span className="text-sm font-medium text-white">
+                  {item.us}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+});
+
+// ════════════════════════════════════════════════════════════════════
+// FEATURE HIGHLIGHTS BAR
+// ════════════════════════════════════════════════════════════════════
+
+const FeatureHighlightsBar = memo(function FeatureHighlightsBar({
   isVisible,
 }: {
   isVisible: boolean;
 }) {
   const highlights = [
-    { icon: Icons.zap, text: "Fast Loading", color: colors.primary },
+    { icon: Icons.zap, text: "Lightning Fast", color: colors.primary },
     { icon: Icons.check, text: "SEO Optimized", color: colors.secondary },
-    { icon: Icons.check, text: "Mobile First", color: colors.primary },
-    { icon: Icons.check, text: "Conversion Ready", color: colors.accent },
+    { icon: Icons.check, text: "Mobile First", color: colors.accent },
+    { icon: Icons.check, text: "Conversion Ready", color: colors.primary },
+    { icon: Icons.sparkle, text: "AI Powered", color: colors.secondary },
   ];
 
   return (
     <div
-      className="mt-16 flex flex-wrap items-center justify-center gap-4 md:gap-8"
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(30px)",
-        transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s",
-      }}
-    >
-      {highlights.map((item, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-2 text-sm text-white/60"
-        >
-          <span className="h-4 w-4" style={{ color: item.color }}>
-            {item.icon}
-          </span>
-          <span>{item.text}</span>
-        </div>
-      ))}
-    </div>
-  );
-});
-
-// ════════════════════════════════════════════════════════════════════
-// CTA SECTION
-// ════════════════════════════════════════════════════════════════════
-
-const CTASection = memo(function CTASection({
-  isVisible,
-}: {
-  isVisible: boolean;
-}) {
-  return (
-    <div
-      className="mt-20 flex flex-col items-center gap-6 text-center"
+      className="mt-16 flex flex-wrap items-center justify-center gap-6 md:gap-10"
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? "translateY(0)" : "translateY(30px)",
         transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s",
       }}
     >
-      {/* Text */}
-      <p className="max-w-xl text-white/50">
-        Ready to build a website that actually works for your business?
-      </p>
-
-      {/* Buttons */}
-      <div className="flex flex-col gap-4 sm:flex-row">
-        {/* Primary */}
-        <Link
-          href="/contact"
-          className="group relative overflow-hidden px-8 py-4 text-sm font-semibold uppercase tracking-wider text-black transition-all duration-300"
-          style={{ backgroundColor: colors.primary }}
+      {highlights.map((item, index) => (
+        <div
+          key={index}
+          className="group flex items-center gap-2 text-sm transition-all duration-300 hover:scale-110"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(10px)",
+            transition: `all 0.5s cubic-bezier(0.22, 1, 0.36, 1) ${0.9 + index * 0.1}s`,
+          }}
         >
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            Get Started
-            <span className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1">
-              {Icons.arrow}
-            </span>
+          <span
+            className="h-5 w-5 transition-all duration-300 group-hover:scale-125"
+            style={{
+              color: item.color,
+              filter: `drop-shadow(0 0 8px ${item.color}60)`,
+            }}
+          >
+            {item.icon}
           </span>
-          <span className="absolute inset-0 -translate-x-full skew-x-12 bg-linear-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-        </Link>
-
-        {/* Secondary */}
-        <Link
-          href="/work"
-          className="group flex items-center justify-center gap-2 border border-white/10 bg-white/2 px-8 py-4 text-sm font-medium text-white/70 transition-all duration-300 hover:border-white/20 hover:bg-white/4 hover:text-white"
-        >
-          View Our Work
-          <span className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5">
-            {Icons.arrow}
+          <span className="font-medium text-white/60 transition-colors duration-300 group-hover:text-white">
+            {item.text}
           </span>
-        </Link>
-      </div>
+        </div>
+      ))}
     </div>
   );
 });
@@ -697,14 +1130,14 @@ const CTASection = memo(function CTASection({
 const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
   headline = "Why Businesses Choose Us",
   subheadline = "The Difference That Drives Results",
-  description = "Most websites look good but fail to generate results. We build websites with performance, SEO, and automation in mind. Your website will not only represent your brand, it will actively work for your business.",
+  description = "Most websites look good but fail to generate results. We build websites with performance, SEO, and automation in mind. Your website will not only represent your brand — it will actively work for your business.",
   features = defaultFeatures,
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
 
-  // Intersection Observer
+  // Intersection Observer with threshold stages
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -712,7 +1145,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.05 },
     );
 
     if (sectionRef.current) {
@@ -729,64 +1162,38 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-24 md:py-32 lg:py-20"
+      className="relative overflow-hidden py-24 md:py-32 lg:py-40"
       style={{ backgroundColor: colors.dark }}
       aria-labelledby="why-choose-us-heading"
     >
-      <Background />
-      <AnimatedLines />
+      <LuxuryBackground />
+      <FloatingElements />
 
       <div className="relative mx-auto max-w-[99%] md:max-w-[95%] px-4">
         {/* Section Header */}
-        <div className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
-          {/* Headline */}
-          <h2
-            id="why-choose-us-heading"
-            className="mb-6 text-3xl font-bold text-white md:text-4xl lg:text-5xl"
-            style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? "translateY(0)" : "translateY(30px)",
-              transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s",
-            }}
-          >
-            {headline.split(" ").map((word, i) => (
-              <span key={i}>
-                {word === "Choose" ? (
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-                    }}
-                  >
-                    {word}
-                  </span>
-                ) : (
-                  word
-                )}{" "}
-              </span>
-            ))}
-          </h2>
+        <div className="mx-auto mb-20 max-w-4xl text-center">
+          <AnimatedHeadline headline={headline} isVisible={isVisible} />
 
           {/* Description */}
           <p
-            className="text-base leading-relaxed text-white/50 md:text-lg"
+            className="mx-auto max-w-2xl text-base leading-relaxed text-white/50 md:text-lg lg:text-xl"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? "translateY(0)" : "translateY(30px)",
-              transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s",
+              transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s",
             }}
           >
             {description}
           </p>
         </div>
 
-        {/* Comparison Indicator */}
-        <ComparisonIndicator isVisible={isVisible} />
+        {/* Comparison Section */}
+        <ComparisonSection isVisible={isVisible} />
 
         {/* Features Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
+        <div className="grid gap-8 md:grid-cols-2 lg:gap-10">
           {features.map((feature, index) => (
-            <FeatureCard
+            <LuxuryFeatureCard
               key={feature.id}
               feature={feature}
               index={index}
@@ -798,23 +1205,36 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({
         </div>
 
         {/* Feature Highlights */}
-        <FeatureHighlightBar isVisible={isVisible} />
-
-        {/* CTA Section */}
-        <CTASection isVisible={isVisible} />
+        <FeatureHighlightsBar isVisible={isVisible} />
       </div>
 
-      <div className="pointer-events-none absolute bottom-8 right-8 hidden lg:block">
+      {/* Decorative Corner Elements */}
+      <div className="pointer-events-none absolute bottom-8 right-8 hidden opacity-20 lg:block">
         <div
-          className="h-20 w-px"
+          className="h-32 w-px"
           style={{
-            background: `linear-gradient(0deg, ${colors.accent}30, transparent)`,
+            background: `linear-gradient(0deg, ${colors.accent}, transparent)`,
           }}
         />
         <div
-          className="absolute bottom-0 right-0 h-px w-20"
+          className="absolute bottom-0 right-0 h-px w-32"
           style={{
-            background: `linear-gradient(270deg, ${colors.accent}30, transparent)`,
+            background: `linear-gradient(270deg, ${colors.accent}, transparent)`,
+          }}
+        />
+      </div>
+
+      <div className="pointer-events-none absolute left-8 top-8 hidden opacity-20 lg:block">
+        <div
+          className="h-32 w-px"
+          style={{
+            background: `linear-gradient(180deg, ${colors.primary}, transparent)`,
+          }}
+        />
+        <div
+          className="absolute left-0 top-0 h-px w-32"
+          style={{
+            background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
           }}
         />
       </div>

@@ -172,7 +172,8 @@ const defaultConfig: HeroConfig = {
         "Conversion Optimized",
         "Brand-Aligned",
       ],
-      image: "/assets/images/Untitled.webp",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/Custom+Website+Design+for+Any+Industry.webp",
       accentColor: "#F59E0B",
     },
     {
@@ -188,7 +189,8 @@ const defaultConfig: HeroConfig = {
         "Content Strategy",
         "Link Building",
       ],
-      image: "/assets/images/2 (5).webp",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/SEO+That+Ranks+You+on+Google.webp",
       accentColor: "#06B6D4",
     },
     {
@@ -204,7 +206,8 @@ const defaultConfig: HeroConfig = {
         "Smart Analytics",
         "24/7 Operation",
       ],
-      image: "/assets/images/3 (3).webp",
+      image:
+        "https://cheetahnova.s3.eu-west-2.amazonaws.com/home/AI+Automation+Tools.webp",
       accentColor: "#8B5CF6",
     },
   ],
@@ -695,7 +698,7 @@ const SecondaryCTA = memo(function SecondaryCTA({
   return (
     <Link
       href={href}
-      className="group inline-flex items-center gap-2 border border-white/10 bg-white/2 px-6 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05] hover:text-white sm:px-8"
+      className="group inline-flex items-center gap-2 border border-white/10 bg-white/2 px-6 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/5 hover:text-white sm:px-8"
     >
       <span>{label}</span>
       <span className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -847,7 +850,7 @@ const Hero: React.FC<HeroProps> = ({ config = defaultConfig }) => {
       />
 
       {/* Main Content Container */}
-      <div className="relative   mx-auto max-w-[99%] md:max-w-[95%] px-4 z-10 flex flex-1 flex-col items-center justify-center   py-20 ">
+      <div className="relative   mx-auto max-w-[99%] md:max-w-[95%] px-4 z-10 flex flex-1 flex-col items-center justify-center   py-16 ">
         {/* ─────────────────────────────────────────────────────
               TEXT CONTENT
           ───────────────────────────────────────────────────── */}
@@ -910,7 +913,7 @@ const Hero: React.FC<HeroProps> = ({ config = defaultConfig }) => {
           <h1
             ref={headlineRef}
             id="hero-headline"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white"
             style={{ opacity: 0 }}
           >
             {config.headline}{" "}

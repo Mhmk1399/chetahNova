@@ -179,7 +179,7 @@ const TechSpecCard = ({
   return (
     <div
       ref={cardRef}
-      className="group relative p-8 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-500 overflow-hidden"
+      className="group relative p-8 bg-white/2 hover:bg-white/[0.04] transition-colors duration-500 overflow-hidden"
     >
       {/* 1. Structural Brackets */}
       <CornerBracket position="tl" />
@@ -200,8 +200,8 @@ const TechSpecCard = ({
       {/* 3. Content */}
       <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 border-b border-white/[0.05] pb-4">
-          <div className="p-2 bg-white/[0.05] rounded-none text-cyan-400 group-hover:text-amber-400 transition-colors duration-300">
+        <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+          <div className="p-2 bg-white/5 rounded-none text-cyan-400 group-hover:text-amber-400 transition-colors duration-300">
             {data.icon}
           </div>
           <SystemLabel text={data.id} />
@@ -296,8 +296,8 @@ export default function AIWhyDifferent() {
         {/* BLUEPRINT GRID */}
         <div className="relative">
           {/* Connecting Lines (Vertical/Horizontal) for visual cohesion */}
-          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent hidden md:block" />
-          <div className="absolute left-1/2 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent hidden md:block" />
+          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-linear-to-r from-transparent via-white/10 to-transparent hidden md:block" />
+          <div className="absolute left-1/2 top-0 h-full w-[1px] bg-linear-to-b from-transparent via-white/10 to-transparent hidden md:block" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.1] border border-white/[0.1]">
             {DIFFERENTIATORS.map((item, idx) => (

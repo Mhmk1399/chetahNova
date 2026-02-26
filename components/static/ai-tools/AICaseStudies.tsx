@@ -135,7 +135,7 @@ const CaseStudyCard = ({ data, index }: { data: CaseStudy; index: number }) => {
       className="relative group h-full bg-[#0B0F19] border-l border-white/[0.1] hover:border-l-cyan-500/50 transition-colors duration-500 pl-6 md:pl-8 pr-4 py-2"
     >
       {/* Dynamic Hover Background (Very Subtle) */}
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-r from-cyan-900/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
       {/* Header: ID & Industry */}
       <div className="flex justify-between items-baseline mb-6">
@@ -153,7 +153,7 @@ const CaseStudyCard = ({ data, index }: { data: CaseStudy; index: number }) => {
       {/* Data Grid: Challenge vs Solution */}
       <div className="grid grid-cols-1 gap-6 text-sm leading-relaxed text-white/60 mb-6 relative">
         {/* Vertical Connector Line */}
-        <div className="absolute left-[-17px] top-2 bottom-2 w-[1px] bg-white/[0.05]">
+        <div className="absolute left-[-17px] top-2 bottom-2 w-[1px] bg-white/5">
           <div
             className={`absolute top-0 left-[-1px] w-[3px] h-[3px] bg-white/20 ${isHovered ? "bg-amber-500" : ""} transition-colors duration-300`}
           />
@@ -177,7 +177,7 @@ const CaseStudyCard = ({ data, index }: { data: CaseStudy; index: number }) => {
       </div>
 
       {/* Outcome Block (Highlighted) */}
-      <div className="relative bg-white/[0.03] border border-white/[0.05] p-4 mt-auto group-hover:border-emerald-500/30 transition-colors duration-500">
+      <div className="relative bg-white/[0.03] border border-white/5 p-4 mt-auto group-hover:border-emerald-500/30 transition-colors duration-500">
         <div className="absolute top-0 left-0 w-[2px] h-full bg-emerald-500/50 opacity-50 group-hover:opacity-100 transition-opacity" />
         <span className="block text-emerald-400 text-xs mb-2 font-mono tracking-wide">
           ► SYSTEM_OUTCOME
@@ -210,7 +210,7 @@ export default function AICaseStudies() {
       className="relative w-full py-24 bg-[#0B0F19] overflow-hidden"
     >
       {/* Background Atmosphere */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-linear-to-r from-transparent via-white/10 to-transparent" />
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
 
       <div className="relative   mx-auto max-w-[99%] md:max-w-[95%] px-4">
@@ -223,7 +223,7 @@ export default function AICaseStudies() {
 
           <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter mb-6">
             Engineered Results: <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-white to-white/40">
               AI Tool Case Studies
             </span>
           </h2>
@@ -247,7 +247,7 @@ export default function AICaseStudies() {
           <AnimatedSeparator delay={0.5} />
 
           <div className="relative group cursor-pointer inline-block mt-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-cyan-500/20 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-linear-to-r from-amber-500/20 to-cyan-500/20 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
 
             <button
               className="relative px-10 py-5 bg-[#0B0F19] border border-white/20 hover:border-white/50 text-white font-mono text-sm tracking-widest uppercase transition-all duration-300"

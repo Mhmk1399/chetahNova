@@ -213,7 +213,7 @@ const FeatureCard = ({
           {description}
         </p>
       </div>
-      <div className="mt-6 pt-4 border-t border-white/[0.05] flex justify-between items-end">
+      <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-end">
         <SystemLabel text={coords} />
         <div className="w-2 h-2 bg-white/10" />
       </div>
@@ -248,7 +248,7 @@ export default function AISeoSystem() {
 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tighter mb-8 leading-[1.1]">
                 How AI Can Improve Your{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-amber-600">
                   SEO Performance
                 </span>
               </h2>
@@ -330,7 +330,7 @@ export default function AISeoSystem() {
               </div>
 
               <button
-                className="mt-6 md:mt-0 relative px-8 py-4 bg-white/[0.05] hover:bg-amber-500/10 border border-amber-500/30 hover:border-amber-500 text-amber-500 font-mono text-sm tracking-wider uppercase transition-all duration-300 flex items-center gap-3 overflow-hidden"
+                className="mt-6 md:mt-0 relative px-8 py-4 bg-white/5 hover:bg-amber-500/10 border border-amber-500/30 hover:border-amber-500 text-amber-500 font-mono text-sm tracking-wider uppercase transition-all duration-300 flex items-center gap-3 overflow-hidden"
                 aria-label="Get an AI SEO Growth Plan"
               >
                 <span className="relative z-10">Get an AI SEO Growth Plan</span>

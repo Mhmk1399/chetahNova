@@ -781,7 +781,7 @@ const AIToolsOverview = memo(function AIToolsOverview() {
         className="pointer-events-none absolute inset-0 z-0"
       >
         <div
-          className="absolute inset-0 opacity-[0.022]"
+          className="absolute inset-0 opacity-22]"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px),

@@ -584,7 +584,7 @@ function ServicesIntroSection() {
       ref={sectionRef}
       id="services-intro"
       aria-labelledby="services-intro-title"
-      className="relative w-full overflow-hidden py-20 md:py-28 lg:py-36"
+      className="relative w-full overflow-hidden py-16 md:py-28 lg:py-36"
       style={{ backgroundColor: TOKENS.DARK_BG }}
     >
       {/* ── Layer 1: Precision Grid ──────────────────────── */}
@@ -1033,7 +1033,7 @@ function ServicesIntro() {
       ref={sectionRef}
       id="services-intro"
       aria-labelledby="services-intro-title"
-      className="relative w-full overflow-hidden py-20 md:py-28 lg:py-20"
+      className="relative w-full overflow-hidden py-16 md:py-28 lg:py-16"
       style={{ backgroundColor: TOKENS.DARK_BG }}
     >
       {/* ── Background Grid ──────────────────────────────── */}
